@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<ul id='posts'>
+  <li class='here'>
+    <h1>Tagged: {{ page.tag | capitalize }}</h1>
+    <ul>
+    	{% for post in site.tags[page.tag] %}
+        <li><span class='date'>{{ post.date | date: "%Y-%m-%d" }}</span><a href='{{ post.url }}'>{{post.title}}</a></li>
+    	{% endfor %}
+	  </ul>
+	</li>
+</ul>
+

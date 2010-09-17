@@ -1,0 +1,28 @@
+<div id='footer'>
+	<div class='grouping'>
+		<div id='tags'>
+			<ul>
+        {% for tag in site.iterable.tags %}
+          <li><a href="{{site.baseurl}}/tags/{{tag.name | downcase}}/index.html">{{ tag.name }}</a></li>
+        {% endfor %}			
+			</ul>
+		</div>
+		<div id='archives'>
+			<ol>
+			{% for post in site.posts reversed limit:5%}
+			  <li><span class='date'>{{ post.date | date: "%Y-%m-%d" }}</span><a href='{{ post.url }}'>{{post.title}}</a></li>
+			{% endfor %}
+			</ol>
+			<a class='more' href='#'>Archives</a>
+		</div>
+		<div id='about'>
+			<h2>Nutty Nuggets</h2>
+			<p>I am a software developer, Ruby enthusiast, frequent moviewatcher, boardgame hobbyist, avid reader, lifelong learner, who spends entirely too much time thinking about nonsense.  Here's where I publish that nonsense.
+		</div>
+	</div>			
+	<address>
+		<p>Mario T. Lanza</p>
+		<p>mlanza@comcast.net</p>
+	</address>
+</div>
+

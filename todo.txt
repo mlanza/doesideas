@@ -1,0 +1,10 @@
+About creating pages on Github
+http://pages.github.com/
+http://alexyoung.org/2009/07/09/new-blog/ (simple template like this would be fine)
+http://al3x.net/ (or like this)
+http://github.com/mojombo/jekyll
+http://wiki.github.com/mojombo/jekyll/liquid-extensions
+http://blog.envylabs.com/2009/08/publishing-a-blog-with-github-pages-and-jekyll/
+http://articles.sitepoint.com/article/jekyll-sites-made-simple/
+http://www.quirkey.com/blog/2009/05/01/github-pages-for-fun-and-win/
+http://rfelix.com/ (jekyll_ext)

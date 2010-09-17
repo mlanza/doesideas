@@ -1,0 +1,67 @@
+---
+layout: post
+title: Is Jekyll Worthwhile?
+tags: ruby rails
+---
+h1. Trying Jekyll
+
+<section>
+
+I am just testing out "Jekyll":http://github.com/mojombo/jekyll.
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+</section>
+
+<section>
+
+{% highlight ruby linenos %}
+class Mimic
+
+  def initialize(model, accessor, options = {})
+    puts "here"
+    puts "MODEL #{model}"
+    @model = model
+    @accessor = accessor
+    @construct = lambda{}
+    @perform_deconstruct = lambda{false}
+    @deconstruct = lambda{}
+    reverse = options[:reverse]
+    self.instance_eval(&yield) if block_given?
+  end
+
+  def has_one(options = {})
+  end
+
+  def belongs_to(options = {})
+  end
+
+  def construct(&block)
+    @construct = block
+  end
+
+  def deconstruct?(&block)
+    @perform_deconstruct = block
+  end
+
+  def deconstruct(&block)
+    @deconstruct = block
+  end
+
+  def delegate(*args)
+    @aliased_methods ||= {}
+    @aliased_methods.merge!(args.pop) if args.last.is_a?(Hash)
+    args.each{|arg|@aliased_methods[arg] = arg}
+  end
+
+
+
+
+end
+
+{% endhighlight %}
+</section>
