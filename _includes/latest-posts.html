@@ -1,0 +1,8 @@
+		<div id='archives'>
+			<ol>
+			{% for post in site.posts reversed limit:5%}
+			  <li><span class='date'>{{ post.date | date: "%Y-%m-%d" }}</span><a href='{{ post.url }}'>{{post.title}}</a></li>
+			{% endfor %}
+			</ol>
+			<a class='more' href='/archives.html'>Archives</a>
+		</div>

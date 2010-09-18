@@ -1,7 +1,8 @@
 ---
 layout: index
 ---
-<li class='here'>
+<li>
+  <article>
 	<ul class='details'>
 		<li class='published-on'>{{ page.date | date: "%Y-%m-%d" }}</li>
 		{% for tag in page.tags %}
@@ -9,6 +10,10 @@ layout: index
 		{% endfor %}		
 	</ul>
 {{ content }}
-	<p class='permalink'><a href='{{page.url}}'>permalink</a></p>
+	<p class='permalink'><a href='{{page.url}}#'>permalink</a></p>
+	</article>
+	{% assign post = page %}
+	{% include commenting.html %}
 </li>
+{% include commenting-activator.html %}
 

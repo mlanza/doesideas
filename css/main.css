@@ -5,12 +5,16 @@ body {
   margin: 0;
   padding: 0;
 }
+#posts article a {
+  color: #c17d11;
+}
 section {
   margin: 0 -4em;
-  padding: 1em 4em;
+  padding: 0 4em;
+  display: block;  
 }
 section + section  {
-  display: block;
+  padding: 1em 4em;
   border-top: dotted 1px black;
 }
 #header, #footer {
@@ -41,6 +45,8 @@ section + section  {
   color: white;
   display: block;
   width: auto;
+  position: relative;
+  z-index: 99;
 }
 #header h1 a {
   color: white;
@@ -67,6 +73,7 @@ address {
   font-size: .8em;
   overflow: hidden;
   text-align: center;
+  z-index: 99;
 }
 .grouping {
   padding: 0;
@@ -82,25 +89,33 @@ address {
 #posts {
   padding: 0;
   list-style: none;
-  width: 40em;
-  margin: 2.5em auto 13em;
+  width: 45em;
+  margin: 2.5em auto 8em;
+  font-size: 1.1em;
 }
-#posts > li {
+#posts article {
   display: block;
   background-color: white;
   min-height: 50em;
-  color: #262626;
   color: #3f3f3f;
   padding: 1em 4em 4em;
   margin: 0 0 2em;
   font-size: .8em;	
   -moz-box-shadow: 7px -7px 7px #777;	
+	position: relative;
+	z-index: 1;
+	border: solid 1px #CCC;
 }
 #posts h1 {
   font-size: 1.4em;
   color: black;
 }
-#posts > li ul.details {
+pre.terminal, pre.console, kbd {
+  background-color: #F4EBDA;
+  background-color: #EEE;
+  padding: 2px;
+}
+#posts article ul.details {
   float: right;
   margin: -1em -4em 0 0;
   width: auto;
@@ -108,7 +123,7 @@ address {
   font-family: helvetica;
   list-style: none;
 }
-#posts > li ul.details > li {
+#posts article ul.details > li {
   float: right;
   width: auto;
   clear: both;
@@ -119,11 +134,10 @@ address {
   text-align: right;
   margin: 0 0 4px;	
 }
-#posts > li ul.details li.published-on {
-  background-color: #95b3D7;
+#posts article ul.details li.published-on {
   background-color: #C3d69b;
 }
-#posts > li ul.details li.tagged {
+#posts article ul.details li.tagged {
   -moz-border-radius-topleft: 5px;	
 }
 #footer > .grouping {
@@ -151,7 +165,7 @@ address {
 #footer > .grouping > div#archives {
   width: 20em;
 }
-#posts > li h1 {
+#posts article h1 {
   font-family: tahoma;
   font-size: 2em;
   color: #2e3436;
@@ -174,11 +188,8 @@ address {
   color: #DDD9c3;
 }
 #posts > li {
-  display: none;
+  padding: 1em 0 3em;
   position: relative;  
-}
-#posts > li.here {
-  display: block;
 }
 .permalink {
   position: absolute;
@@ -190,7 +201,7 @@ address {
   font-family: tahoma;
   background-color: none;
 }
-.permalink a {
+#posts .permalink a {
   background-color: #c6d9f0;
   padding: 2px 7px 3px;
   font-size: .8em;
@@ -231,4 +242,32 @@ li .date {
   padding: 5px 5px 5px 26px;
   margin: 0;
 }
-
+.commenting {
+  width: 35em;
+  padding: 1em;
+  color: white;
+  margin: 0 auto;
+  border: dotted 1px black;
+  background-color: #AAA;
+  z-index: 5;
+  border: solid 1px white;
+  -moz-box-shadow: 7px 7px 7px #777;		
+  font-family: helvetica;
+}
+.commenting h2 {
+  font-family: helvetica;
+  margin: 0;
+  font-size: 1.2em;
+}
+.commenting a, .commenting textarea {
+  color: #333;
+}
+.commenting select {
+  background-color: #555;
+  color: white;
+}
+#dezzy {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
