@@ -1,5 +1,5 @@
 body {
-  background-image: url('/images/paisely2.jpg'); 	 	
+  background-image: url('/images/paisely2.jpg');
   color: black;
   font-family: Georgia;
   margin: 0;
@@ -11,7 +11,7 @@ body {
 section {
   margin: 0 -4em;
   padding: 0 4em;
-  display: block;  
+  display: block;
 }
 section + section  {
   padding: 1em 4em;
@@ -20,7 +20,7 @@ section + section  {
 #header, #footer {
   position: fixed;
   left: 0;
-  width: 100%;	
+  width: 100%;
 }
 #header {
   top: 0;
@@ -60,9 +60,6 @@ section + section  {
   padding: 0;
   font-size: 1em;
 }
-address {
-  display: none;
-}
 #footer {
   bottom: 0;
   border-top: solid 1px white;
@@ -100,8 +97,8 @@ address {
   color: #3f3f3f;
   padding: 1em 4em 4em;
   margin: 0 0 2em;
-  font-size: .8em;	
-  -moz-box-shadow: 7px -7px 7px #777;	
+  font-size: .8em;
+  -moz-box-shadow: 7px -7px 7px #777;
 	position: relative;
 	z-index: 1;
 	border: solid 1px #CCC;
@@ -127,18 +124,18 @@ pre.terminal, pre.console, kbd {
   float: right;
   width: auto;
   clear: both;
-  color: white;	
+  color: white;
   background-color: #DDD;
-  padding: 2px 4px;	
-  -moz-border-radius-bottomleft: 5px;		
+  padding: 2px 4px;
+  -moz-border-radius-bottomleft: 5px;
   text-align: right;
-  margin: 0 0 4px;	
+  margin: 0 0 4px;
 }
 #posts article ul.details li.published-on {
   background-color: #C3d69b;
 }
 #posts article ul.details li.tagged {
-  -moz-border-radius-topleft: 5px;	
+  -moz-border-radius-topleft: 5px;
 }
 #footer > .grouping {
   margin: 0 auto;
@@ -170,7 +167,7 @@ pre.terminal, pre.console, kbd {
   font-size: 2em;
   color: #2e3436;
   color: #555753;
-} 
+}
 #footer > .grouping > div#about {
   width: 25em;
 }
@@ -189,7 +186,7 @@ pre.terminal, pre.console, kbd {
 }
 #posts > li {
   padding: 1em 0 3em;
-  position: relative;  
+  position: relative;
 }
 .permalink {
   position: absolute;
@@ -208,8 +205,8 @@ pre.terminal, pre.console, kbd {
   color: white;
   text-decoration: none;
   letter-spacing: 3px;
-  -moz-border-radius-topleft: 5px;		
-  -moz-border-radius-topright: 5px;		
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
 }
 a.more {
   font-size: .8em;
@@ -251,7 +248,7 @@ li .date {
   background-color: #AAA;
   z-index: 5;
   border: solid 1px white;
-  -moz-box-shadow: 7px 7px 7px #777;		
+  -moz-box-shadow: 7px 7px 7px #777;
   font-family: helvetica;
 }
 .commenting h2 {
@@ -271,3 +268,27 @@ li .date {
   bottom: 20px;
   right: 10px;
 }
+pre{
+  background-color: #EEE;
+  padding: 1em;
+}
+h1 + p.subheading {
+  font-size: 1.4em;
+  margin: -1em 0 1em;
+  color: #262626;
+}
+ol.footnotes {
+  font-size: .8em;
+  font-style: italic;
+}
+a#resume {
+  float: right;
+  margin-right: 3em;
+  background-color: slategray;
+  color: black;
+  padding: 3px;
+  text-decoration: none;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+}
+
