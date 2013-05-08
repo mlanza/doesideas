@@ -1,0 +1,128 @@
+html {
+  background-color: white;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: #454344;
+}
+body {
+  padding: 1em 1em 1em 50px;
+}
+em {
+  font-style: italic;
+}
+b, strong{
+  font-weight: bolder;
+}
+a {
+  color: goldenrod;
+}
+#work a img {
+  float: left;
+  height: 100px;
+}
+#work p {
+  float: left;
+  clear: both;
+}
+
+#logo{
+  height: 150px;
+  margin: 0 0 10px 25px;
+}
+b{
+  font-weight: bolder;
+}
+p, pre code{
+  padding: .5em 0 .5em 0;
+}
+p.subtitle {
+  margin-top: -1.25em;
+  font-weight: bold;
+  font-size: .9em;
+}
+span.tag {
+  background-color: lightgray;
+  padding: 0 .3em;
+  margin-left: .3em;
+  font-size: .8em;
+  float: right;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+span.date {
+  padding-right: .5em;
+  font-size: .8em;
+  display: block;
+}
+sup,
+sub {
+  height: 0;
+  line-height: 1em;
+  vertical-align: baseline;
+  _vertical-align: bottom;
+  position: relative;
+  font-size: .5em;
+}
+sup {
+  bottom: 2.4ex;
+}
+sub {
+  top: .5ex;
+}
+ol {
+  list-style-type: decimal;
+  padding-left: 3em;
+}
+ol li {
+  margin-bottom: .25em;
+}
+aside {
+  float: left;
+  width: 25%;
+}
+aside ul li {
+  margin-bottom: .25em;
+}
+aside section {
+  margin-bottom: .5em;
+}
+#main {
+  float: left;
+  width: 70%;
+}
+section.disqus_thread {
+  width: 650px;
+}
+article {
+  padding: 1em;
+  width: 650px;
+  line-height: 1.25em;
+}
+aside > h1 {
+  font-size: 2em;
+  text-transform: lowercase;
+  font-family: Impact;
+  font-weight: normal;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  padding: .25em 0 .75em 0;
+}
+article > h1 {
+  font-size: 1.65em;
+  font-weight: normal;
+  font-family: Impact;
+}
+pre code {
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0 1em;  
+  padding: 1em;
+  font-family: monospace;
+  line-height: 1em;
+}
+.footnotes {
+  font-size: .8em;
+  font-style: italic;
+  list-style-type: decimal;
+  padding: 1.5em;
+}

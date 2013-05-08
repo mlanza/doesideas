@@ -1,7 +1,0 @@
-		<div id='tags'>
-			<ul>
-        {% for tag in site.iterable.tags %}
-          <li><a href="{{site.baseurl}}/tags/{{tag.name | downcase}}/index.html">{{ tag.name }}</a></li>
-        {% endfor %}			
-			</ul>
-		</div>
