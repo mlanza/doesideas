@@ -158,6 +158,12 @@
           element.nest.call($el, function(){
             bldr.each(items, iterator);
           });
+        } else if (arg.nodeName){
+          $el.append(arg);
+        } else if ($.isArray(arg) && arg.length > 0 && arg[0].nodeName) { //iterators
+          $.each(arg, function(idx, el){
+            $el.append(el);
+          })
         } else if ($.isFunction(arg)) {
           var result = arg.call(bldr, bldr);
           result && processArg(result);

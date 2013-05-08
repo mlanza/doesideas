@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="css/zenburn.css">
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery.buildr.js"></script>
-<script type="text/javascript" src="textile.js"></script>
 <script type="text/javascript" src="marked.js"></script>
 <script type="text/javascript" src="js/underscore.js"></script>
 <script type="text/javascript" src="js/highlight.js"></script>
@@ -22,44 +21,188 @@
 
 (function(){
 
+  var source_url = "https://api.github.com/repos/mlanza/doesideas/contents"
+  var builders = {
+    pageIndex: function(pages){
+      var b = this;
+      return b.section({class: 'pages'},
+        b.ul(pages, function(idx, entry){
+          var link = b.a({class: 'loads', href: '#' + entry.slug}, entry.title)
+          $.data(link[0], 'entry', entry)
+          b.li(link)
+        })
+      ).el()
+    },
+    postIndex: function(posts){
+      var b = this;
+      return _.chain(posts).groupBy(function(entry){
+        return entry.year;
+      }).map(function(entries, year){
+        return {year: year, entries: entries}
+      }).sortBy(function(group){
+        return -group.year
+      }).map(function(group){
+        var entries = group.entries, year = group.year;
+        return b.section({class: 'posts'}, function(){
+          b.b(year);
+          b.ul(entries, function(idx, entry){
+            var id = '#' + entry.slug
+            var link = b.a({class: 'loads', href: id}, entry.title)
+            $.data(link[0], 'entry', entry)
+            b.li(link)
+          })
+        }).el()[0]
+      }).value()
+    },
+    pages: function(pages){
+      var b = this;
+      return _.chain(pages).map(function(entry){
+        return b.article(
+          {id: entry.slug},
+          b.h1(entry.title),
+          b.section({class: 'body'})
+        ).el()[0]
+      }).value();
+    },
+    posts: function(posts){
+      var b = this;
+      return _.map(posts, function(entry){
+        return b.article(
+          {id: entry.slug}, 
+          b.span({class: 'date'}, entry.formatDate), 
+          entry.tags,
+          function(idx, tag){
+            b.span({class: 'tag'}, tag);
+          },
+          b.h1(entry.title), 
+          function(x){
+            if (entry.subtitle){
+              b.p({class: 'subtitle'}, entry.subtitle)
+            }
+          },
+          b.section({class: 'body'}),
+          b.section({class: 'comments'})
+        ).el()[0]
+      })      
+    }
+  }
+
+  $.fn.lazyLoad = function(){
+    return $(this).click(function(event){
+      event.preventDefault()
+      window.location.hash = this.hash
+      $('article').css({display: 'none'})             //conceal all entries
+      $($(this).attr('href')).css({display: 'block'}) //reveal select entry
+    }).one('click', function(){
+      var entry = $.data(this, 'entry')
+      entry.load(function(){
+        $('#' + entry.slug).find('section.body').append(entry.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
+      })        
+    })
+  }
+
+  //define custom buildr methods
+  //$.buildr().extend()
+
+  function parseGFM(markdown){
+    return $.Deferred(function(dfd) {
+      setTimeout(function(){
+        $.ajax({
+          type: "POST",
+          url: 'https://api.github.com/markdown/raw',
+          data: markdown,
+          headers: {'Content-Type': 'text/plain'},
+          dataType: 'text'
+        }).
+          done(dfd.resolve).
+          always(logAjaxAttempt).
+          fail(logAjaxIssue).
+          fail(function(){
+            dfd.resolve(marked.parse(markdown)) //use local parsing if remote fails
+          })
+      },10)
+    }).promise();   
+  }
+
+  function parseMarkdown(markdown){
+    return $.Deferred(function(dfd) {
+      setTimeout(function(){
+        dfd.resolve(marked.parse(markdown))
+      },10)
+    }).promise();   
+  }
+
+  var toHTML = parseMarkdown //choose a parser.
+
+  function logAjaxIssue(xhr, status, error){
+    console.dir({source: this.url, xhr: xhr, status: status, error: error})
+  }
+
+  function logAjaxAttempt(){
+    console.log('GET', this.url)
+  }
+
+  function loadRemoteContent(slug){
+    return $.ajax({
+      url: source_url + "/" + slug,
+      dataType: "text",
+      headers: {Accept: 'application/vnd.github.3.raw'}
+    }).
+      always(logAjaxAttempt).
+      fail(logAjaxIssue)
+  }
+
+  function loadLocalContent(slug){
+    return $.ajax({
+      url: slug,
+      dataType: "text"
+    }).
+      always(logAjaxAttempt).
+      fail(logAjaxIssue)
+  }
+
+  var loadContent = loadLocalContent;
+
   function expandContent(entry){
-    entry.date && (entry.formatDate = entry.date);
+    entry.date && (entry.formatDate = entry.date)
     _.each(entry, function(value, key){
-      entry[key] = (transformations[key] || _.identity)(value);       
-    });
+      entry[key] = (transformations[key] || _.identity)(value)
+    })
     entry.load = function(loaded){
-      $.get(entry.source, function(body){
-        entry.body = marked.parse(body);
-        loaded(entry);
-        entry.load = function(loaded){
-          loaded(entry);
-        }
+      loadContent(entry.source).done(function(body){
+        toHTML(body).done(function(html){
+          entry.body = html
+          loaded(entry)
+          entry.load = function(loaded){
+            loaded(entry)
+          }
+        })
       })
     }
-    entry.date && (entry.year = entry.date.getFullYear());
-    entry.slug = (entry.year ? entry.year + '-' : '') + entry.source.split("/")[1].split(".")[0];
-    return entry;
+    entry.date && (entry.year = entry.date.getFullYear())
+    entry.slug = entry.source.split("/")[1].split(".")[0]
+    return entry
   }
 
   function disqus(entry){
 
-    window.disqus_shortname = 'doesideas';
-    window.disqus_identifer = entry.slug;
-    window.disqus_url = "http://doesideas.com/#!" + entry.slug;
+    window.disqus_shortname = 'doesideas'
+    window.disqus_identifer = entry.slug
+    window.disqus_url = "http://doesideas.com/#" + entry.slug
 
     if (window.DISQUS) {
 
       DISQUS.reset({
         reload: true,
         config: function () {  
-          //this.page.slug = entry.slug;
-          //this.page.developer = 1;
-          this.page.title = entry.title;
-          this.page.language = "en";       
-          this.page.identifier = entry.slug;  
-          this.page.url = "http://doesideas.com/#!" + entry.slug;
+          this.page.slug = window.disqus_identifer
+          this.page.developer = 1
+          this.page.title = entry.title
+          this.page.language = "en"    
+          this.page.identifier = window.disqus_identifer
+          this.page.url = window.disqus_url
         }
-      });
+      })
 
     } 
 
@@ -67,123 +210,48 @@
 
   var transformations = {
     date: function(date){
-      return new Date(date);
+      return new Date(date)
     }
   }
 
   $(document).ready(function() {
+ 
+    $.getJSON("index.json").always(logAjaxAttempt).done(function(index){
 
+      _.each(index.pages, expandContent)
+      _.each(index.posts, expandContent)
 
-    //content destinations
-    var 
-      posts    = $('#posts'),
-      pages    = $('#pages'),
-      sidebar  = $('#sidebar');
+      $('body').build(builders, function(b){
+        with(b){
 
-    $.getJSON("index.json").done(function(index){
-      _.each(index.pages, expandContent);
-      _.each(index.posts, expandContent);
-
-      sidebar.build(function(b){
-        b.section(
-          {class: 'pages'},
-          b.ul(index.pages, function(idx, entry){
-            var link = b.a({class: 'loads', href: '#' + entry.slug}, entry.title);
-            $.data(link[0], 'entry', entry);
-            b.li(link);
-          })
-        )      
-      })
-
-      _.chain(index.posts).groupBy(function(entry){
-        return entry.year;
-      }).map(function(entries, year){
-        return {year: year, entries: entries};
-      }).sortBy(function(group){
-        return -group.year;
-      }).each(function(group){
-        var entries = group.entries, year = group.year;
-        sidebar.build(function(b){
-          b.section({class: 'posts'}, function(){
-            b.b(year);
-            b.ul(entries, function(idx, entry){
-              var id = '#' + entry.slug
-              var link = b.a({class: 'loads', href: id}, entry.title);
-              $.data(link[0], 'entry', entry);
-              b.li(link)
-            })
-          })
-        })
-      })
-
-      _.chain(index.pages).each(function(entry){
-        pages.build(function(b){
-          b.article(
-            {id: entry.slug},
-            b.h1(entry.title),
-            b.section({class: 'body'})
-          )            
-        })
-      })
-
-      _.each(index.posts, function(entry){
-        posts.build(function(b){
-          b.article(
-            {id: entry.slug}, 
-            b.span({class: 'date'}, entry.formatDate), 
-            entry.tags,
-            function(idx, tag){
-              b.span({class: 'tag'}, tag);
-            },
-            b.h1(entry.title), 
-            function(x){
-              if (entry.subtitle){
-                b.p({class: 'subtitle'}, entry.subtitle)
-              }
-            },
-            b.section({class: 'body'}),
-            b.section({class: 'comments'})
+          aside({id: 'sidebar'},
+            img({id: 'logo', src: 'images/bulb.svg'}),
+            h1('Does Ideas'),
+            pageIndex(index.pages),
+            postIndex(index.posts)
           )
-        })
+          section({id: 'main'},
+            section({id: 'pages'}, pages(index.pages)),
+            section({id: 'posts'}, posts(index.posts)),
+            section({id: 'comments'}, div({id: 'disqus_thread'}))
+          )
+
+        }
       })
 
-      $('a.loads').click(function(event){
-        event.preventDefault();
-        window.location.hash = this.hash;
-        $('article').css({display: 'none'})         //conceal all content
-        $($(this).attr('href')).css({display: 'block'}) //reveal the select entry
-      }).one('click', function(){
-        var entry = $.data(this, 'entry');
-        entry.load(function(){
-          $('#' + entry.slug).find('section.body').append(entry.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
-        })        
-      });
+      $('a.loads').lazyLoad() //TODO use event delegation
 
       //select most current article
       $('#sidebar .posts a').first().trigger('click')
 
-    });
+    }).fail(logAjaxIssue)
+  })
 
-  });
-
-})();
+})()
 </script>
 </head>  
 <body>
-
-
-<aside id='sidebar'>
-  <img id='logo' src='images/bulb.svg'/>
-  <h1>Does Ideas</h1>
-  <noscript>This site will not be rendered while JavaScript is disabled.</noscript>
-</aside>
-<section id='main'>
-  <section id='pages'></section>
-  <section id='posts'></section>
-  <section id='comments'>
-    <div id='disqus_thread'></div>
-  </section>
-</section>
+<noscript>This site will only render when JavaScript is enabled.</noscript>
 <!--script type="text/javascript" src="js/disqus.js"></script-->
 </body>
 </html>
