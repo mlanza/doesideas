@@ -23,7 +23,31 @@ a {
   float: left;
   clear: both;
 }
-
+#tag-cloud {
+  margin-top: 2em;
+  float: right;
+  position: absolute;
+  top: 0;
+  right: 1em;
+}
+#tag-cloud li {
+  background-image: url(/images/tag.png);
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding: 7px .5em 0 28px;
+  height: 22px;
+  font-size: .8em;
+  vertical-align: bottom;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+#tag-cloud a {
+  color: black;  
+  cursor: pointer;  
+}
+li.selected {
+  background-color: #DDD
+}
 #logo{
   height: 150px;
   margin: 0 0 10px 25px;
@@ -83,7 +107,7 @@ aside ul li {
   margin-bottom: .25em;
 }
 aside section {
-  margin-bottom: .5em;
+  margin-bottom: 1em;
 }
 #main {
   float: left;

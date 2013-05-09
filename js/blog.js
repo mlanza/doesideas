@@ -4,11 +4,12 @@
   // renders the site
   //
 
-  function render(index, clustered, route){
+  function render(index, info, route){
 
-    var site  = clustered.site[0]
-    var pages = clustered.page
-    var posts = clustered.post
+    var site  = info.grouped.site[0],
+        pages = info.grouped.page,
+        posts = info.grouped.post, latest= posts[0],
+        tags  = info.tags
     
     hljs.tabReplace = '  ' // use 2 space tabs in code samples
 
@@ -17,10 +18,11 @@
     $('title').html(site.title)
     $('body').build(helpers, function(b){
       b.aside({id: 'sidebar'},
-        b.img({id: 'logo', src: 'images/bulb.svg', alt: 'light bulb'}),
+        b.a({href:'/'}, b.img({id: 'logo', src: 'images/bulb.svg', alt: 'light bulb logo'})),
         b.h1('Does Ideas'),
         b.pageIndex(pages),
-        b.postIndex(posts)
+        b.postIndex(posts),
+        b.tagCloud(tags)        
       )
       b.section({id: 'main'},
         b.section({id: 'pages'}, b.pages(pages)),
@@ -40,7 +42,7 @@
       });
     })*/
 
-    route(posts[0].slug)
+    route(latest.slug)
 
   }
 
@@ -67,10 +69,30 @@
         return b.section({class: 'posts'}, function(){
           b.b(year);
           b.ul(posts, function(idx, entry){
-            b.li(b.a({href: '#' + entry.slug}, entry.title))
+            b.li({'data-tags': entry.tags.join(' ')}, b.a({href: '#' + entry.slug}, entry.title))
           })
         }).el()[0]
       }).value()
+    },
+    tagCloud: function tagCloud(tags){
+      var b = this;
+      return b.ul({id: 'tag-cloud'}, tags, function(idx, tagInfo){
+        b.li({'data-count': tagInfo.count}, b.a(tagInfo.tag)).click(function(event){
+          event.preventDefault();
+          $(this).toggleClass('selected');
+          var selected = [];
+          $('#tag-cloud li.selected a').each(function(){
+            selected.push($(this).text())
+          })
+          $('[data-tags]').css({opacity: selected.length == 0 ? '1' : '.25'})
+          var selector = _.map(selected, function(tag){
+            return "[data-tags~='" + tag + "']"
+          }).join(', ')
+          $('article').css({display: 'none'}) //conceal all entries 
+          $(selector).css({opacity: '1'});
+          $(window).hashchange()
+        })
+      }).el()[0]
     },
     pages: function pages(pages){
       return _.map(pages, this.page, this);
@@ -159,8 +181,8 @@
   // router is called when the hash changes
   //
 
-  function router(hash, target, index, clustered){
-    var title = clustered.site[0].title;
+  function router(hash, target, index, info){
+    var title = info.grouped.site[0].title;
     if (target.length == 0) {
        $('title').html(title)
        return

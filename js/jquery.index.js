@@ -100,16 +100,30 @@
                 return entry.published()
               }).sortBy(function(entry){
                 return entry.sortKey
-              }).value(), 
-              grouped = _.groupBy(typed, function(entry){
-                return entry.type
-              })
+              }).value(),
+              info = { 
+                grouped: _.groupBy(typed, function(entry){
+                  return entry.type
+                }),
+                tags: _.chain(typed).map(function(entry){
+                  return entry.tags || [];
+                }).flatten().countBy(function(tag){
+                  return tag;
+                }).pairs().sortBy(function(kvp){
+                  return kvp[0]
+                }).sortBy(function(kvp){
+                  return -kvp[1]
+                }).map(function(kvp){
+                  return {tag: kvp[0], count: kvp[1]}
+                }).value()
+              }
+
             options.router && $(window).hashchange(function(){
               var hash = location.hash;
               var target = $(hash);              
-              options.router(hash, target, typed, grouped)
+              options.router(hash, target, typed, info)
             })
-            dfd.resolve(typed, grouped, route)
+            dfd.resolve(typed, info, route)
           }).fail(dfd.reject);
         })
       }, 10)
