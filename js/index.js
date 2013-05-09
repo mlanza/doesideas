@@ -11,10 +11,10 @@
           dataType: 'text'
         }).
           done(dfd.resolve).
-          always(logAjaxAttempt).
-          fail(logAjaxIssue).
-          fail(function(){
-            dfd.resolve(marked.parse(markdown)) //use local parsing if remote fails
+          fail(function(){ //fallback to local parsing
+            parseMarkdown(markdown).
+              done(dfd.resolve).
+              fail(dfd.reject)
           })
       },10)
     }).promise();   
@@ -30,7 +30,7 @@
 
   function loadRemoteContent(slug){
     return $.ajax({
-      url: Entry.remoteContentUrl + "/" + slug,
+      url: Entry.prototype.remoteContentUrl + "/" + slug, //TODO fix
       dataType: "text",
       headers: {Accept: 'application/vnd.github.3.raw'}
     })
@@ -43,7 +43,7 @@
     })
   }  
 
-  this.Entry = function Entry(data){
+  function Entry(data){
     _.extend(this, data || {})
   }
   Entry.prototype.load = function(loaded){
@@ -62,8 +62,11 @@
       },10)
     }).done(loaded).promise()
   }
+  Entry.prototype.published = function(){
+    return true;
+  }
 
-  Entry.remoteContentUrl = '';
+  Entry.prototype.remoteContentUrl = '';
   Entry.prototype.parser = parseMarkdown;
   Entry.prototype.parsers = {
     parseGFM: parseGFM,
@@ -76,69 +79,44 @@
     loadRemoteContent: loadRemoteContent
   }
 
-  function Page(data){
-    data && (this.slug = data.source.split("/")[1].split(".")[0])
-    _.extend(this, data || {})
+  function typecaster(entry){
+    var type = $.index.types[entry.type] || Entry;
+    return new type(entry)
   }
 
-  Page.prototype = new Entry()
-
-  function Post(data){
-    _.extend(this, data || {})
-    this.publishedAt = new Date(data.date);
-    this.slug = data.source.split("/")[1].split(".")[0];
-    this.year = this.publishedAt.getFullYear()
-  }
-  Post.prototype = new Page();
-
-  var types = this.types = {
-    pages: Page,
-    posts: Post
+  function route(defaultHash){
+    $(window).hashchange()
+    if (location.hash.length < 2) location.hash = defaultHash
   }
 
-  function disqus(entry){
-
-    window.disqus_shortname = 'doesideas'
-    window.disqus_identifer = entry.slug
-    window.disqus_url = "http://doesideas.com/#" + entry.slug
-
-    if (window.DISQUS) {
-
-      DISQUS.reset({
-        reload: true,
-        config: function () {  
-          this.page.slug = window.disqus_identifer
-          this.page.developer = 1
-          this.page.title = entry.title
-          this.page.language = "en"    
-          this.page.identifier = window.disqus_identifer
-          this.page.url = window.disqus_url
-        }
-      })
-
-    } 
-
-  }  
-
-  function expand(index){
-    _.each(types, function(cons, key){
-      index[key] = _.map(index[key], function(data){
-        return new cons(data)
-      }) 
-    })
-    return index;
-  }
-
-  $.index = function Index(filename){
+  $.index = function index(options){
+    options = _.defaults(options || {}, {filename: 'index.json', typecaster: typecaster, render: function(){}})
     return $.Deferred(function(dfd){
       setTimeout(function(){
         $(document).ready(function() {
-          $.getJSON(filename).done(function(index){
-            dfd.resolve(expand(index))
+          $.getJSON(options.filename).done(function(index){
+            var 
+              typed   = _.chain(index).map(options.typecaster).filter(function(entry){
+                return entry.published()
+              }).sortBy(function(entry){
+                return entry.sortKey
+              }).value(), 
+              grouped = _.groupBy(typed, function(entry){
+                return entry.type
+              })
+            options.router && $(window).hashchange(function(){
+              var hash = location.hash;
+              var target = $(hash);              
+              options.router(hash, target, typed, grouped)
+            })
+            dfd.resolve(typed, grouped, route)
           }).fail(dfd.reject);
         })
       }, 10)
-    }).promise()
+    }).promise().done(options.render)
   }
+
+  $.index.types = {}
+  $.index.Entry = Entry;
 
 })(this);

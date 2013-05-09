@@ -1,36 +1,40 @@
-{
-	"site": {
-		"title": "Does Ideas -- the Blog",
-		"owner": "Mario T. Lanza",
-		"email": "mlanza@doesideas.com"
-	},
-	"pages": [{
-		"title": "About",
-		"source": "pages/about.md"
-	},{
-		"title": "Need a hand?",
-		"source": "pages/work.md"
-	}],
-	"posts": [{
-		"title": "Keeping Your Validations Dry",
-		"subtitle": "Why we repeat validations and how we can do it less",
-		"tags": ["design-patterns", "software", "dry"],
-		"date": "2011-05-30",
-		"source": "posts/keeping-your-validations-dry.md"
-	},{
-		"title": "You Can Always Be Original",
-		"tags": ["ruby", "startups", "boardgames", "originality"],
-		"date": "2011-05-22",
-		"source": "posts/you-can-always-be-original.md"
-	},{
-		"title": "It's Not Just \"Sexy Code\"",
-		"tags": ["ruby", "design", "software"],
-		"date": "2011-04-06",
-		"source": "posts/its-not-just-sexy-code.md"
-	},{
-		"title": "Symlinks Improve Modularity",
-		"tags": ["ruby", "radiant", "design"],
-		"date": "2010-09-17",
-		"source": "posts/symlinks-improve-modularity.md"
-	}]
-}
+[{
+	"type": "site",
+	"title": "Does Ideas",
+	"subtitle": "Ruminations of a programmer who likes making things",
+	"owner": "Mario T. Lanza",
+	"email": "mlanza@doesideas.com"
+},{
+	"type": "page",
+	"title": "About",
+	"source": "pages/about.md"
+},{
+	"type": "page",
+	"title": "Need a hand?",
+	"source": "pages/work.md"
+},{
+	"type": "post",
+	"title": "Keeping Your Validations Dry",
+	"subtitle": "Why we repeat validations and how we can do it less",
+	"tags": ["design-patterns", "software", "dry"],
+	"date": "2011-05-30",
+	"source": "posts/keeping-your-validations-dry.md"
+},{
+	"type": "post",
+	"title": "You Can Always Be Original",
+	"tags": ["ruby", "startups", "boardgames", "originality"],
+	"date": "2011-05-22",
+	"source": "posts/you-can-always-be-original.md"
+},{
+	"type": "post",
+	"title": "It's Not Just \"Sexy Code\"",
+	"tags": ["ruby", "design", "software"],
+	"date": "2011-04-06",
+	"source": "posts/its-not-just-sexy-code.md"
+},{
+	"type": "post",
+	"title": "Symlinks Improve Modularity",
+	"tags": ["ruby", "radiant", "design"],
+	"date": "2010-09-17",
+	"source": "posts/symlinks-improve-modularity.md"
+}]

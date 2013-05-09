@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html>
 <head>
-<title>...Loading...</title>
+<title>Loading Blog...</title>
 <meta charset="utf-8" />  
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/styles.css">
@@ -18,116 +18,9 @@
 <script type="text/javascript" src="js/xml.js"></script>
 <script type="text/javascript" src="js/scale.fix.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/blog.js"></script>
 <script>hljs.tabReplace = '  ';</script>
-<script>
-
-(function(){
-
-  Entry.remoteContentUrl = "https://api.github.com/repos/mlanza/doesideas/contents"
-
-  var builders = {
-    pageIndex: function(pages){
-      var b = this;
-      return b.section({class: 'pages'},
-        b.ul(pages, function(idx, entry){
-          b.li(b.a({class: 'loads', href: '#' + entry.slug}, entry.title))
-        })
-      ).el()
-    },
-    postIndex: function(posts){
-      var b = this;
-      return _.chain(posts).groupBy(function(entry){
-        return entry.year;
-      }).map(function(entries, year){
-        return {year: year, entries: entries}
-      }).sortBy(function(group){
-        return -group.year
-      }).map(function(group){
-        var entries = group.entries, year = group.year;
-        return b.section({class: 'posts'}, function(){
-          b.b(year);
-          b.ul(entries, function(idx, entry){
-            b.li(b.a({class: 'loads', href: '#' + entry.slug}, entry.title))
-          })
-        }).el()[0]
-      }).value()
-    },
-    pages: function(pages){
-      var b = this;
-      return _.chain(pages).map(function(entry){
-        var page = b.article({id: entry.slug},
-          b.h1(entry.title),
-          b.section({class: 'body'})
-        ).el()[0];
-        $.data(page, 'entry', entry)
-        return page;
-      }).value();
-    },
-    posts: function(posts){
-      var b = this;
-      return _.map(posts, function(entry){
-        var post = b.article({id: entry.slug}, 
-          b.span({class: 'date'}, entry.date), 
-          entry.tags,
-          function(idx, tag){
-            b.span({class: 'tag'}, tag);
-          },
-          b.h1(entry.title), 
-          function(x){
-            if (entry.subtitle){
-              b.p({class: 'subtitle'}, entry.subtitle)
-            }
-          },
-          b.section({class: 'body'}),
-          b.section({class: 'comments'})
-        ).el()[0];
-        $.data(post, 'entry', entry)
-        return post;
-      })      
-    }
-  }
-
-  $.index("index.json").done(function(index){
-
-    $(window).hashchange(function(){
-      var target = $(location.hash);
-      if (target.length == 0) return;
-      $('article').css({display: 'none'}) //conceal all entries      
-      target.css({display: 'block'})      //reveal selected entry
-      var entry = $.data(target[0], 'entry');
-      entry.load(function(){
-        $('#' + this.slug).find('section.body').append(this.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
-      })    
-    })
-
-    $('title').html(index.site.title);
-    $('body').build(builders, function(b){
-      with(b){
-
-        aside({id: 'sidebar'},
-          img({id: 'logo', src: 'images/bulb.svg'}),
-          h1('Does Ideas'),
-          pageIndex(index.pages),
-          postIndex(index.posts)
-        )
-        section({id: 'main'},
-          section({id: 'pages'}, pages(index.pages)),
-          section({id: 'posts'}, posts(index.posts)),
-          section({id: 'comments'}, div({id: 'disqus_thread'}))
-        )
-
-      }
-    })
-
-    $(window).hashchange()
-
-    //select most current article
-    if (location.hash.length < 2) location.hash = index.posts[0].slug;
-
-  })
-
-})()
-</script>
+<script>$.index($.index.blog)</script>
 </head>  
 <body>
 <noscript>This site will only render when JavaScript is enabled.</noscript>
