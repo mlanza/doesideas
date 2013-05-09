@@ -3,7 +3,9 @@
 	"title": "Does Ideas",
 	"subtitle": "Ruminations of a programmer who likes making things",
 	"owner": "Mario T. Lanza",
-	"email": "mlanza@doesideas.com"
+	"email": "mlanza@doesideas.com",
+	"domain": "http://doesideas.com",
+	"remoteContentUrl": "https://api.github.com/repos/mlanza/doesideas/contents"
 },{
 	"type": "page",
 	"title": "About",

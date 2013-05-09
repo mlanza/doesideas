@@ -1,8 +1,10 @@
 (function(){
 
+  hljs.tabReplace = '  ';
+
   //custom builders used for rendering
   var builders = {
-    pageIndex: function(pages){
+    pageIndex: function pageIndex(pages){
       var b = this;
       return b.section({class: 'pages'},
         b.ul(pages, function(idx, entry){
@@ -10,77 +12,59 @@
         })
       ).el()
     },
-    postIndex: function(posts){
+    postIndex: function postIndex(posts){
       var b = this;
       return _.chain(posts).groupBy(function(entry){
         return entry.year;
-      }).map(function(entries, year){
-        return {year: year, entries: entries}
+      }).map(function(posts, year){
+        return {year: year, posts: posts}
       }).sortBy(function(group){
         return -group.year
       }).map(function(group){
-        var entries = group.entries, year = group.year;
+        var posts = group.posts, year = group.year;
         return b.section({class: 'posts'}, function(){
           b.b(year);
-          b.ul(entries, function(idx, entry){
+          b.ul(posts, function(idx, entry){
             b.li(b.a({href: '#' + entry.slug}, entry.title))
           })
         }).el()[0]
       }).value()
     },
-    pages: function(pages){
-      var b = this;
-      return _.chain(pages).map(function(entry){
-        var page = b.article({id: entry.slug},
-          b.h1(entry.title),
-          b.section({class: 'body'})
-        ).el()[0];
-        $.data(page, 'entry', entry)
-        return page;
-      }).value();
+    pages: function pages(pages){
+      return _.map(pages, this.page, this);
     },
-    posts: function(posts){
+    page: function(entry){
       var b = this;
-      return _.map(posts, function(entry){
-        var post = b.article({id: entry.slug}, 
-          b.span({class: 'date'}, entry.date), 
-          entry.tags,
-          function(idx, tag){
-            b.span({class: 'tag'}, tag);
-          },
-          b.h1(entry.title), 
-          function(x){
-            if (entry.subtitle){
-              b.p({class: 'subtitle'}, entry.subtitle)
-            }
-          },
-          b.section({class: 'body'}),
-          b.section({class: 'comments'})
-        ).el()[0];
-        $.data(post, 'entry', entry)
-        return post;
-      })      
-    }
-  }
-
-  function disqus(entry){
-    window.disqus_shortname = 'doesideas'
-    window.disqus_identifer = entry.slug
-    window.disqus_url = "http://doesideas.com/#" + entry.slug
-
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: function () {  
-          this.page.slug = window.disqus_identifer
-          this.page.developer = 1
-          this.page.title = entry.title
-          this.page.language = "en"    
-          this.page.identifier = window.disqus_identifer
-          this.page.url = window.disqus_url
-        }
+      return _.tap(b.article({id: entry.slug},
+        b.h1(entry.title),
+        b.section({class: 'body'})
+      ).el()[0], function(page){
+        $.data(page, 'entry', entry)
       })
-    } 
+    },
+    posts: function posts(posts){
+      return _.map(posts, this.post, this)      
+    },
+    post: function post(entry){
+      var b = this;
+      return _.tap(b.article({id: entry.slug, class: 'commentable'}, 
+        b.span({class: 'date'}, entry.date), 
+        entry.tags,
+        function(idx, tag){
+          b.span({class: 'tag'}, tag);
+        },
+        b.h1(entry.title), 
+        function(x){
+          if (entry.subtitle){
+            b.p({class: 'subtitle'}, entry.subtitle)
+          }
+        },
+        b.section({class: 'body'})
+      ).el()[0], function(post){
+        $.data(post, 'entry', entry)
+      })
+    }
+
   }
 
   /* 
@@ -88,8 +72,6 @@
    */
 
   var Entry = $.index.Entry;
-
-  Entry.prototype.remoteContentUrl = "https://api.github.com/repos/mlanza/doesideas/contents";
 
   function Site(data){
     _.extend(this, data || {})
@@ -151,6 +133,8 @@
     var site = clustered.site[0]
     var latestPost = clustered.post[0]
 
+    Entry.prototype.remoteContentUrl = site.remoteContentUrl;
+
     $('title').html(site.title)
     $('body').build(builders, function(b){
       with(b){
@@ -162,23 +146,34 @@
         )
         section({id: 'main'},
           section({id: 'pages'}, pages(clustered.page)),
-          section({id: 'posts'}, posts(clustered.post)),
-          section({id: 'comments'}, div({id: 'disqus_thread'}))
+          section({id: 'posts'}, posts(clustered.post))
         )
       }
+    })
+
+    $('.commentable').each(function(idx, commentable){
+      var slug = $(commentable).attr('id')
+      var id   = 'comments-' + idx
+      var url  = site.domain +'/#!' + slug
+      $('<section>').attr({id: id}).appendTo(commentable);
+      gapi.comments.render(id, {
+        href: url,
+        first_party_property: 'BLOGGER',
+        view_type: 'FILTERED_POSTMOD'
+      });
     })
 
     route(latestPost.slug)
 
   }
 
-  var blog = {
+  var blog = this.blog = {
     types: types,
     typecaster: typecaster,
     router: router,
     render: render
   }
 
-  $.index.blog = blog
+  $.index(blog)
 
 })(this)
