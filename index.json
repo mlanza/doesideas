@@ -1,4 +1,9 @@
 {
+	"site": {
+		"title": "Does Ideas -- the Blog",
+		"owner": "Mario T. Lanza",
+		"email": "mlanza@doesideas.com"
+	},
 	"pages": [{
 		"title": "About",
 		"source": "pages/about.md"

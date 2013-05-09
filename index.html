@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html>
 <head>
-<title>Does Ideas</title>
+<title>...Loading...</title>
 <meta charset="utf-8" />  
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/styles.css">
@@ -9,27 +9,28 @@
 <link rel="stylesheet" href="css/zenburn.css">
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery.buildr.js"></script>
-<script type="text/javascript" src="marked.js"></script>
+<script type="text/javascript" src="js/jquery.hashchange.js"></script>
+<script type="text/javascript" src="js/marked.js"></script>
 <script type="text/javascript" src="js/underscore.js"></script>
 <script type="text/javascript" src="js/highlight.js"></script>
 <script type="text/javascript" src="js/javascript.js"></script>
 <script type="text/javascript" src="js/ruby.js"></script>
 <script type="text/javascript" src="js/xml.js"></script>
 <script type="text/javascript" src="js/scale.fix.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script>hljs.tabReplace = '  ';</script>
 <script>
 
 (function(){
 
-  var source_url = "https://api.github.com/repos/mlanza/doesideas/contents"
+  Entry.remoteContentUrl = "https://api.github.com/repos/mlanza/doesideas/contents"
+
   var builders = {
     pageIndex: function(pages){
       var b = this;
       return b.section({class: 'pages'},
         b.ul(pages, function(idx, entry){
-          var link = b.a({class: 'loads', href: '#' + entry.slug}, entry.title)
-          $.data(link[0], 'entry', entry)
-          b.li(link)
+          b.li(b.a({class: 'loads', href: '#' + entry.slug}, entry.title))
         })
       ).el()
     },
@@ -46,10 +47,7 @@
         return b.section({class: 'posts'}, function(){
           b.b(year);
           b.ul(entries, function(idx, entry){
-            var id = '#' + entry.slug
-            var link = b.a({class: 'loads', href: id}, entry.title)
-            $.data(link[0], 'entry', entry)
-            b.li(link)
+            b.li(b.a({class: 'loads', href: '#' + entry.slug}, entry.title))
           })
         }).el()[0]
       }).value()
@@ -57,19 +55,19 @@
     pages: function(pages){
       var b = this;
       return _.chain(pages).map(function(entry){
-        return b.article(
-          {id: entry.slug},
+        var page = b.article({id: entry.slug},
           b.h1(entry.title),
           b.section({class: 'body'})
-        ).el()[0]
+        ).el()[0];
+        $.data(page, 'entry', entry)
+        return page;
       }).value();
     },
     posts: function(posts){
       var b = this;
       return _.map(posts, function(entry){
-        return b.article(
-          {id: entry.slug}, 
-          b.span({class: 'date'}, entry.formatDate), 
+        var post = b.article({id: entry.slug}, 
+          b.span({class: 'date'}, entry.date), 
           entry.tags,
           function(idx, tag){
             b.span({class: 'tag'}, tag);
@@ -82,169 +80,50 @@
           },
           b.section({class: 'body'}),
           b.section({class: 'comments'})
-        ).el()[0]
+        ).el()[0];
+        $.data(post, 'entry', entry)
+        return post;
       })      
     }
   }
 
-  $.fn.lazyLoad = function(){
-    return $(this).click(function(event){
-      event.preventDefault()
-      window.location.hash = this.hash
-      $('article').css({display: 'none'})             //conceal all entries
-      $($(this).attr('href')).css({display: 'block'}) //reveal select entry
-    }).one('click', function(){
-      var entry = $.data(this, 'entry')
+  $.index("index.json").done(function(index){
+
+    $(window).hashchange(function(){
+      var target = $(location.hash);
+      if (target.length == 0) return;
+      $('article').css({display: 'none'}) //conceal all entries      
+      target.css({display: 'block'})      //reveal selected entry
+      var entry = $.data(target[0], 'entry');
       entry.load(function(){
-        $('#' + entry.slug).find('section.body').append(entry.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
-      })        
+        $('#' + this.slug).find('section.body').append(this.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
+      })    
     })
-  }
 
-  //define custom buildr methods
-  //$.buildr().extend()
+    $('title').html(index.site.title);
+    $('body').build(builders, function(b){
+      with(b){
 
-  function parseGFM(markdown){
-    return $.Deferred(function(dfd) {
-      setTimeout(function(){
-        $.ajax({
-          type: "POST",
-          url: 'https://api.github.com/markdown/raw',
-          data: markdown,
-          headers: {'Content-Type': 'text/plain'},
-          dataType: 'text'
-        }).
-          done(dfd.resolve).
-          always(logAjaxAttempt).
-          fail(logAjaxIssue).
-          fail(function(){
-            dfd.resolve(marked.parse(markdown)) //use local parsing if remote fails
-          })
-      },10)
-    }).promise();   
-  }
+        aside({id: 'sidebar'},
+          img({id: 'logo', src: 'images/bulb.svg'}),
+          h1('Does Ideas'),
+          pageIndex(index.pages),
+          postIndex(index.posts)
+        )
+        section({id: 'main'},
+          section({id: 'pages'}, pages(index.pages)),
+          section({id: 'posts'}, posts(index.posts)),
+          section({id: 'comments'}, div({id: 'disqus_thread'}))
+        )
 
-  function parseMarkdown(markdown){
-    return $.Deferred(function(dfd) {
-      setTimeout(function(){
-        dfd.resolve(marked.parse(markdown))
-      },10)
-    }).promise();   
-  }
-
-  var toHTML = parseMarkdown //choose a parser.
-
-  function logAjaxIssue(xhr, status, error){
-    console.dir({source: this.url, xhr: xhr, status: status, error: error})
-  }
-
-  function logAjaxAttempt(){
-    console.log('GET', this.url)
-  }
-
-  function loadRemoteContent(slug){
-    return $.ajax({
-      url: source_url + "/" + slug,
-      dataType: "text",
-      headers: {Accept: 'application/vnd.github.3.raw'}
-    }).
-      always(logAjaxAttempt).
-      fail(logAjaxIssue)
-  }
-
-  function loadLocalContent(slug){
-    return $.ajax({
-      url: slug,
-      dataType: "text"
-    }).
-      always(logAjaxAttempt).
-      fail(logAjaxIssue)
-  }
-
-  var loadContent = loadLocalContent;
-
-  function expandContent(entry){
-    entry.date && (entry.formatDate = entry.date)
-    _.each(entry, function(value, key){
-      entry[key] = (transformations[key] || _.identity)(value)
+      }
     })
-    entry.load = function(loaded){
-      loadContent(entry.source).done(function(body){
-        toHTML(body).done(function(html){
-          entry.body = html
-          loaded(entry)
-          entry.load = function(loaded){
-            loaded(entry)
-          }
-        })
-      })
-    }
-    entry.date && (entry.year = entry.date.getFullYear())
-    entry.slug = entry.source.split("/")[1].split(".")[0]
-    return entry
-  }
 
-  function disqus(entry){
+    $(window).hashchange()
 
-    window.disqus_shortname = 'doesideas'
-    window.disqus_identifer = entry.slug
-    window.disqus_url = "http://doesideas.com/#" + entry.slug
+    //select most current article
+    if (location.hash.length < 2) location.hash = index.posts[0].slug;
 
-    if (window.DISQUS) {
-
-      DISQUS.reset({
-        reload: true,
-        config: function () {  
-          this.page.slug = window.disqus_identifer
-          this.page.developer = 1
-          this.page.title = entry.title
-          this.page.language = "en"    
-          this.page.identifier = window.disqus_identifer
-          this.page.url = window.disqus_url
-        }
-      })
-
-    } 
-
-  }
-
-  var transformations = {
-    date: function(date){
-      return new Date(date)
-    }
-  }
-
-  $(document).ready(function() {
- 
-    $.getJSON("index.json").always(logAjaxAttempt).done(function(index){
-
-      _.each(index.pages, expandContent)
-      _.each(index.posts, expandContent)
-
-      $('body').build(builders, function(b){
-        with(b){
-
-          aside({id: 'sidebar'},
-            img({id: 'logo', src: 'images/bulb.svg'}),
-            h1('Does Ideas'),
-            pageIndex(index.pages),
-            postIndex(index.posts)
-          )
-          section({id: 'main'},
-            section({id: 'pages'}, pages(index.pages)),
-            section({id: 'posts'}, posts(index.posts)),
-            section({id: 'comments'}, div({id: 'disqus_thread'}))
-          )
-
-        }
-      })
-
-      $('a.loads').lazyLoad() //TODO use event delegation
-
-      //select most current article
-      $('#sidebar .posts a').first().trigger('click')
-
-    }).fail(logAjaxIssue)
   })
 
 })()
