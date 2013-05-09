@@ -1,9 +1,51 @@
 (function(){
 
-  hljs.tabReplace = '  ';
+  // 
+  // renders the site
+  //
 
-  //custom builders used for rendering
-  var builders = {
+  function render(index, clustered, route){
+
+    var site  = clustered.site[0]
+    var pages = clustered.page
+    var posts = clustered.post
+    
+    hljs.tabReplace = '  ' // use 2 space tabs in code samples
+
+    Entry.prototype.remoteContentUrl = site.remoteContentUrl;
+
+    $('title').html(site.title)
+    $('body').build(helpers, function(b){
+      b.aside({id: 'sidebar'},
+        b.img({id: 'logo', src: 'images/bulb.svg', alt: 'light bulb'}),
+        b.h1('Does Ideas'),
+        b.pageIndex(pages),
+        b.postIndex(posts)
+      )
+      b.section({id: 'main'},
+        b.section({id: 'pages'}, b.pages(pages)),
+        b.section({id: 'posts'}, b.posts(posts))
+      )
+    })
+
+    /*$('.commentable').each(function(idx, commentable){
+      var slug = $(commentable).attr('id')
+      var id   = 'comments-' + idx
+      var url  = site.domain +'/#!' + slug
+      $('<section>').attr({id: id}).appendTo(commentable);
+      gapi.comments.render(id, {
+        href: url,
+        first_party_property: 'BLOGGER',
+        view_type: 'FILTERED_POSTMOD'
+      });
+    })*/
+
+    route(posts[0].slug)
+
+  }
+
+  //rendering helpers
+  var helpers = {
     pageIndex: function pageIndex(pages){
       var b = this;
       return b.section({class: 'pages'},
@@ -67,9 +109,10 @@
 
   }
 
-  /* 
-   * BLOG CONTENT TYPES
-   */
+
+  // 
+  // content types
+  //
 
   var Entry = $.index.Entry;
 
@@ -110,14 +153,20 @@
     return new type(entry)
   }
 
-  //locates and displays the select content
+
+
+  // 
+  // router is called when the hash changes
+  //
+
   function router(hash, target, index, clustered){
     var title = clustered.site[0].title;
     if (target.length == 0) {
        $('title').html(title)
        return
     }
-      
+    
+    //locates and displays the select content  
     $('article').css({display: 'none'}) //conceal all entries      
     target.css({display: 'block'})      //reveal selected entry
     var entry = $.data(target[0], 'entry')
@@ -127,53 +176,15 @@
     })  
   }
 
-  //renders the entire site
-  function render(index, clustered, route){
 
-    var site = clustered.site[0]
-    var latestPost = clustered.post[0]
+  // 
+  // generate the site!
+  //
 
-    Entry.prototype.remoteContentUrl = site.remoteContentUrl;
-
-    $('title').html(site.title)
-    $('body').build(builders, function(b){
-      with(b){
-        aside({id: 'sidebar'},
-          img({id: 'logo', src: 'images/bulb.svg'}),
-          h1('Does Ideas'),
-          pageIndex(clustered.page),
-          postIndex(clustered.post)
-        )
-        section({id: 'main'},
-          section({id: 'pages'}, pages(clustered.page)),
-          section({id: 'posts'}, posts(clustered.post))
-        )
-      }
-    })
-
-    $('.commentable').each(function(idx, commentable){
-      var slug = $(commentable).attr('id')
-      var id   = 'comments-' + idx
-      var url  = site.domain +'/#!' + slug
-      $('<section>').attr({id: id}).appendTo(commentable);
-      gapi.comments.render(id, {
-        href: url,
-        first_party_property: 'BLOGGER',
-        view_type: 'FILTERED_POSTMOD'
-      });
-    })
-
-    route(latestPost.slug)
-
-  }
-
-  var blog = this.blog = {
-    types: types,
+  $.index({
     typecaster: typecaster,
     router: router,
     render: render
-  }
-
-  $.index(blog)
+  })
 
 })(this)
