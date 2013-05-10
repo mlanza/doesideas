@@ -55,9 +55,11 @@
           entry.loader(entry.source).done(function(body){
             entry.parser(body).done(function(html){
               entry.body = html
-              dfd.resolve(entry)
+              dfd.resolve(entry, true)
             }).fail(dfd.reject)
           }).fail(dfd.reject);
+        } else {
+          dfd.resolve(entry, false);
         }
       },10)
     }).done(loaded).promise()

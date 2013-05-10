@@ -187,15 +187,18 @@
        $('title').html(title)
        return
     }
+
+    var entry = $.data(target[0], 'entry')
     
     //locates and displays the select content  
-    $('article').css({display: 'none'}) //conceal all entries      
-    target.css({display: 'block'})      //reveal selected entry
-    var entry = $.data(target[0], 'entry')
-    $('title').html(entry.title + ' - ' + title)
-    $.data(target[0], 'entry').load(function(){
+    $.when($('article').fadeOut()).then(function(){
+      $('title').html(entry.title + ' - ' + title)
+    }).then($.data(target[0], 'entry').load(function(entry, first){
+      if (!first) return;
       $('#' + this.slug).find('section.body').append(this.body).find('pre code').each(function(idx, el) {hljs.highlightBlock(el)})
-    })  
+    })).then(function(){
+      target.fadeIn()
+    })
   }
 
 

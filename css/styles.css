@@ -120,6 +120,7 @@ article {
   padding: 1em;
   width: 650px;
   line-height: 1.25em;
+  display: none; /* jQuery will fade in */
 }
 aside > h1 {
   font-size: 2em;
