@@ -16,6 +16,13 @@
 	"source": "pages/work.md"
 },{
 	"type": "post",
+	"title": "Lincoln's Axe and Making Good Software",
+	"subtitle": "",
+	"tags": ["software"],
+	"date": "2013-05-14",
+	"source": "posts/lincolns-axe-and-making-good-software.md"
+},{
+	"type": "post",
 	"title": "Keeping Your Validations Dry",
 	"subtitle": "Why we repeat validations and how we can do it less",
 	"tags": ["design-patterns", "software", "dry"],
