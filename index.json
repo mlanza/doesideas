@@ -25,25 +25,25 @@
 	"type": "post",
 	"title": "Keeping Your Validations Dry",
 	"subtitle": "Why we repeat validations and how we can do it less",
-	"tags": ["design-patterns", "software", "dry"],
+	"tags": ["design-patterns", "software"],
 	"date": "2011-05-30",
 	"source": "posts/keeping-your-validations-dry.md"
 },{
 	"type": "post",
 	"title": "You Can Always Be Original",
-	"tags": ["ruby", "startups", "boardgames", "originality"],
+	"tags": ["boardgames"],
 	"date": "2011-05-22",
 	"source": "posts/you-can-always-be-original.md"
 },{
 	"type": "post",
-	"title": "It's Not Just \"Sexy Code\"",
-	"tags": ["ruby", "design", "software"],
+	"title": "Beauty Matters",
+	"tags": ["software"],
 	"date": "2011-04-06",
-	"source": "posts/its-not-just-sexy-code.md"
+	"source": "posts/beauty-matters.md"
 },{
 	"type": "post",
 	"title": "Symlinks Improve Modularity",
-	"tags": ["ruby", "radiant", "design"],
+	"tags": ["ruby", "radiant-cms", "software"],
 	"date": "2010-09-17",
 	"source": "posts/symlinks-improve-modularity.md"
 }]
