@@ -155,3 +155,16 @@ pre code {
   list-style-type: decimal;
   padding: 1.5em;
 }
+blockquote {
+  margin: 1em;
+  padding: .25em .5em;
+  background-color: #EEE;
+  -moz-border-top-left-radius: 9px;
+  -moz-border-bottom-right-radius: 9px;
+  border-top-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+}
+kbd {
+  font-family: monospace;
+  background-color: #F2F2DC;
+}

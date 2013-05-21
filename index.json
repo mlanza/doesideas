@@ -30,10 +30,11 @@
 	"source": "posts/keeping-your-validations-dry.md"
 },{
 	"type": "post",
-	"title": "You Can Always Be Original",
-	"tags": ["boardgames"],
+	"title": "Don't Knock Originality",
+	"subtitle": "Reusing what came before by no means shows a lack of creativity",
+	"tags": ["boardgames", "software"],
 	"date": "2011-05-22",
-	"source": "posts/you-can-always-be-original.md"
+	"source": "posts/dont-knock-originality.md"
 },{
 	"type": "post",
 	"title": "Beauty Matters",
