@@ -21,6 +21,7 @@
         b.a({href:'/'}, b.img({id: 'logo', src: 'images/bulb.svg', alt: 'light bulb logo'})),
         b.h1('Does Ideas'),
         b.pageIndex(pages),
+        b.h2('Entries'),
         b.postIndex(posts),
         b.tagCloud(tags)        
       )
@@ -30,50 +31,25 @@
       )
     })
 
-    /*$('.commentable').each(function(idx, commentable){
-      var slug = $(commentable).attr('id')
-      var id   = 'comments-' + idx
-      var url  = site.domain +'/#!' + slug
-      $('<section>').attr({id: id}).appendTo(commentable);
-      gapi.comments.render(id, {
-        href: url,
-        first_party_property: 'BLOGGER',
-        view_type: 'FILTERED_POSTMOD'
-      });
-    })*/
-
     route(latest.slug)
 
   }
 
-  //rendering helpers
-  var helpers = {
-    pageIndex: function pageIndex(pages){
+  function entryIndex(type){
+    return function buildIndex(entries){
       var b = this;
-      return b.section({class: 'pages'},
-        b.ul(pages, function(idx, entry){
-          b.li(b.a({href: '#' + entry.slug}, entry.title))
+      return b.section({class: type},
+        b.ul(entries, function(idx, entry){
+          b.li((entry.tags ? {'data-tags': entry.tags.join(' ')} : {}), b.a({href: '#' + entry.slug}, entry.title))
         })
       ).el()
-    },
-    postIndex: function postIndex(posts){
-      var b = this;
-      return _.chain(posts).groupBy(function(entry){
-        return entry.year;
-      }).map(function(posts, year){
-        return {year: year, posts: posts}
-      }).sortBy(function(group){
-        return -group.year
-      }).map(function(group){
-        var posts = group.posts, year = group.year;
-        return b.section({class: 'posts'}, function(){
-          b.b(year);
-          b.ul(posts, function(idx, entry){
-            b.li({'data-tags': entry.tags.join(' ')}, b.a({href: '#' + entry.slug}, entry.title))
-          })
-        }).el()[0]
-      }).value()
-    },
+    }
+  }
+
+  //rendering helpers
+  var helpers = {
+    pageIndex: entryIndex('pages'),
+    postIndex: entryIndex('posts'),
     tagCloud: function tagCloud(tags){
       var b = this;
       return b.ul({id: 'tag-cloud'}, tags, function(idx, tagInfo){
