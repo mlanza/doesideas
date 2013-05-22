@@ -4,7 +4,7 @@ html {
   color: #454344;
 }
 body {
-  padding: 1em 1em 1em 50px;
+  padding: 1em 2em;
 }
 em {
   font-style: italic;
@@ -114,8 +114,9 @@ aside section {
   margin-bottom: 1em;
 }
 #main {
-  float: left;
-  width: 70%;
+  floatd: left;
+  width: 675px;
+  margin: 0 auto;
 }
 section.disqus_thread {
   width: 650px;
