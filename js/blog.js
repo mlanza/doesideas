@@ -64,9 +64,7 @@
           var selector = _.map(selected, function(tag){
             return "[data-tags~='" + tag + "']"
           }).join(', ')
-          $('article').css({display: 'none'}) //conceal all entries 
           $(selector).css({opacity: '1'});
-          $(window).hashchange()
         })
       }).el()[0]
     },
