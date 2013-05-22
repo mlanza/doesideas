@@ -23,7 +23,7 @@
         b.pageIndex(pages),
         b.h2('Entries'),
         b.postIndex(posts),
-        b.tagCloud(tags)        
+        b.tagCloud(tags)
       )
       b.section({id: 'main'},
         b.section({id: 'pages'}, b.pages(pages)),
