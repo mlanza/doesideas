@@ -22,6 +22,14 @@ article img:first-child{
   float: right;
   padding: 1em 0 1em 1em;
 }
+article aside {
+  background-color: #F2F2DC;
+  padding: 1em;
+  float: right;
+  margin: 1em 0 1em 1em;
+  text-align: justify;
+  width: 15em;
+}
 #work a img {
   float: left;
   height: 100px;
