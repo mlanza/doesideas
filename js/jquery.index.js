@@ -81,6 +81,11 @@
     loadRemoteContent: loadRemoteContent
   }
 
+  function Redirect(data){
+    _.extend(this, data || {})
+  }
+  Redirect.prototype = new Entry();
+
   function typecaster(entry){
     var type = $.index.types[entry.type] || Entry;
     return new type(entry)
@@ -108,9 +113,9 @@
                   return entry.type
                 }),
                 tags: _.chain(typed).map(function(entry){
-                  return entry.tags || [];
+                  return entry.tags || []
                 }).flatten().countBy(function(tag){
-                  return tag;
+                  return tag
                 }).pairs().sortBy(function(kvp){
                   return kvp[0]
                 }).sortBy(function(kvp){
@@ -121,8 +126,15 @@
               }
 
             options.router && $(window).hashchange(function(){
-              var hash = location.hash;
-              var target = $(hash);              
+              var hash = location.hash
+              var redirect = (_.detect(info.grouped.redirect, function(redirect){
+                return redirect.old == hash;
+              }) || {})['new'];
+              if (redirect){
+                location.hash = redirect
+                return
+              }
+              var target = $(hash)
               options.router(hash, target, typed, info)
             })
             dfd.resolve(typed, info, route)
@@ -134,5 +146,6 @@
 
   $.index.types = {}
   $.index.Entry = Entry;
+  $.index.Redirect = Redirect;
 
 })(this);

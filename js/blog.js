@@ -110,7 +110,7 @@
   // content types
   //
 
-  var Entry = $.index.Entry;
+  var Entry = $.index.Entry, Redirect = $.index.Redirect;
 
   function Site(data){
     _.extend(this, data || {})
@@ -140,7 +140,8 @@
   var types = {
     site: Site,
     page: Page,
-    post: Post
+    post: Post,
+    redirect: Redirect
   }
 
   //typecasts entries

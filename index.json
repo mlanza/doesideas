@@ -23,18 +23,17 @@
 	"source": "posts/lincolns-axe-and-making-good-software.md"
 },{
 	"type": "post",
-	"title": "Keeping Your Validations Dry",
+	"title": "Why Repeat Validations?",
 	"subtitle": "Why we repeat validations and how we can do it less",
 	"tags": ["design-patterns", "software"],
 	"date": "2011-05-30",
-	"source": "posts/keeping-your-validations-dry.md"
+	"source": "posts/why-repeat-validations.md"
 },{
 	"type": "post",
-	"title": "Don't Knock Originality",
-	"subtitle": "Reusing what came before by no means shows a lack of creativity",
+	"title": "Being Original",
 	"tags": ["boardgames", "software"],
 	"date": "2011-05-22",
-	"source": "posts/dont-knock-originality.md"
+	"source": "posts/being-original.md"
 },{
 	"type": "post",
 	"title": "Beauty Matters",
@@ -47,4 +46,12 @@
 	"tags": ["ruby", "radiant-cms", "software"],
 	"date": "2010-09-17",
 	"source": "posts/symlinks-improve-modularity.md"
+},{
+	"type": "redirect",
+	"old": "#keeping-your-validations-dry",
+	"new": "#dry-validations"
+},{
+	"type": "redirect",
+	"old": "#you-can-always-be-original",
+	"new": "#being-original"
 }]
