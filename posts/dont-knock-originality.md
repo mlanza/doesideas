@@ -28,7 +28,7 @@ Greg Kinnear in [Flash of Genius](http://www.imdb.com/title/tt1054588/) portrays
 
 > I haven't checked but I'm pretty sure there's not a single word in this book that is new and they can all be found in a dictionary.  All Dickens did was arrange them into a pattern. He created something new by using words, perhaps the only tools that were available to him just as almost all inventors have had to do in history.
 
-Creating ofttimes reuses what already is.  Reuben Kulakofsky created [a great sandwich](http://en.wikipedia.org/wiki/Reuben_sandwich) having invented neither bread nor the sandwich.
+That's how I see it.  Sometimes creating is nothing more than combining things in a unique way.
 
 In addition to a love for coding, I have a passion for playing designer board games.  Every year lots of new games are published.  In boardgaming circles hardcore gamers are sometimes critical about games stating that some new game does nothing more than use mechanics from some other games.  Maybe so, I think, but it's the particular combination that makes it unique.  The game [Outpost](http://boardgamegeek.com/boardgame/1491/outpost) was redone as [The Scepter of Zavandor](http://boardgamegeek.com/boardgame/13884/the-scepter-of-zavandor) and again as [Phoenicia](http://boardgamegeek.com/boardgame/28620/phoenicia).  I prefer Zavandor which is neither the first nor the last.  Nor is it completely original.
 
