@@ -23,11 +23,11 @@
 	"source": "posts/lincolns-axe-and-making-good-software.md"
 },{
 	"type": "post",
-	"title": "Why Repeat Validations?",
+	"title": "Don't Repeat Validations",
 	"subtitle": "Why we repeat validations and how we can do it less",
 	"tags": ["design-patterns", "software"],
 	"date": "2011-05-30",
-	"source": "posts/why-repeat-validations.md"
+	"source": "posts/dont-repeat-validations.md"
 },{
 	"type": "post",
 	"title": "Being Original",
