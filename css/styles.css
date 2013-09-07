@@ -49,9 +49,9 @@ article aside {
   background-image: url(/images/tag.png);
   background-repeat: no-repeat;
   background-position: right center;
-  color: black;  
-  cursor: pointer;  
-  padding: 4px 28px 4px .5em;  
+  color: black;
+  cursor: pointer;
+  padding: 4px 28px 4px .5em;
   -moz-border-radius: 6px;
   border-radius: 6px;
   vertical-align: top;
@@ -129,7 +129,21 @@ aside section {
   float: left;
   width: 68%;
   margin: 0 auto;
-  padding-top: 8.8em;
+  padding-top: 8.7em;
+}
+.nav {
+  position: fixed;
+  top: .5em;
+  height: 2em;
+}
+#toc-icon {
+  right: .8em;
+}
+#earlier-icon {
+  right: 3.3em;
+}
+#later-icon {
+  right: 5.8em;
 }
 section.disqus_thread {
   width: 650px;
@@ -150,7 +164,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: .5em 0 .25em 0;
 }
 article > h1 {
-  font-size: 1.65em;
+  font-size: 1.95em;
   font-weight: normal;
   font-family: Impact;
   margin-top: -.25em;
@@ -158,7 +172,7 @@ article > h1 {
 pre code {
   -moz-border-radius: 5px;
   border-radius: 5px;
-  margin: 0 1em;  
+  margin: 0 1em;
   padding: 1em;
   font-family: monospace;
   line-height: 1em;

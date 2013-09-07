@@ -17,7 +17,7 @@
               fail(dfd.reject)
           })
       },10)
-    }).promise();   
+    }).promise();
   }
 
   function parseMarkdown(markdown){
@@ -25,7 +25,7 @@
       setTimeout(function(){
         dfd.resolve(marked.parse(markdown))
       },10)
-    }).promise();   
+    }).promise();
   }
 
   function loadRemoteContent(slug){
@@ -41,7 +41,7 @@
       url: slug,
       dataType: "text"
     })
-  }  
+  }
 
   function Entry(data){
     _.extend(this, data || {})
@@ -102,42 +102,24 @@
       setTimeout(function(){
         $(document).ready(function() {
           $.getJSON(options.filename).done(function(index){
-            var 
-              typed   = _.chain(index).map(options.typecaster).filter(function(entry){
+            var typed   = _.chain(index).map(options.typecaster).filter(function(entry){
                 return entry.published()
               }).sortBy(function(entry){
                 return entry.sortKey
-              }).value(),
-              info = { 
-                grouped: _.groupBy(typed, function(entry){
-                  return entry.type
-                }),
-                tags: _.chain(typed).map(function(entry){
-                  return entry.tags || []
-                }).flatten().countBy(function(tag){
-                  return tag
-                }).pairs().sortBy(function(kvp){
-                  return kvp[0]
-                }).sortBy(function(kvp){
-                  return -kvp[1]
-                }).map(function(kvp){
-                  return {tag: kvp[0], count: kvp[1]}
-                }).value()
-              }
-
+              }).value();
             options.router && $(window).hashchange(function(){
               var hash = location.hash
-              var redirect = (_.detect(info.grouped.redirect, function(redirect){
-                return redirect.old == hash;
+              var redirect = (_.detect(index, function(asset){
+                return asset instanceof Redirect && asset.old == hash;
               }) || {})['new'];
               if (redirect){
                 location.hash = redirect
                 return
               }
               var target = $(hash)
-              options.router(hash, target, typed, info)
+              options.router(hash, target, typed)
             })
-            dfd.resolve(typed, info, route)
+            dfd.resolve(typed, route)
           }).fail(dfd.reject);
         })
       }, 10)

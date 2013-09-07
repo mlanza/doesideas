@@ -1,16 +1,42 @@
 (function(){
 
-  // 
+  //
   // renders the site
   //
 
-  function render(index, info, route){
+  function render(index, route){
+    var about = _.detect(index, function(asset){
+      return asset instanceof Page && asset.title === "About"
+    })
+    var at = index.indexOf(about);
+
+    var articles = new Page({slug: 'articles', title: 'Articles', source: function(){
+      return this.postIndex(posts)[0]
+    }});
+    index.splice(at + 1, 0, articles);
+
+    var info = {
+      grouped: _.groupBy(index, function(entry){
+        return entry.type
+      }),
+      tags: _.chain(index).map(function(entry){
+        return entry.tags || []
+      }).flatten().countBy(function(tag){
+        return tag
+      }).pairs().sortBy(function(kvp){
+        return kvp[0]
+      }).sortBy(function(kvp){
+        return -kvp[1]
+      }).map(function(kvp){
+        return {tag: kvp[0], count: kvp[1]}
+      }).value()
+    }
 
     var site  = info.grouped.site[0],
         pages = info.grouped.page,
         posts = info.grouped.post, latest= posts[0],
         tags  = info.tags
-    
+
     hljs.tabReplace = '  ' // use 2 space tabs in code samples
 
     Entry.prototype.remoteContentUrl = site.remoteContentUrl;
@@ -21,15 +47,21 @@
         b.a({href:'/'}, b.img({id: 'logo', src: 'images/bulb.svg', alt: 'light bulb logo'})),
         b.h1('Does Ideas'),
         b.pageIndex(pages),
-        b.h2('Entries'),
-        b.postIndex(posts),
         b.tagCloud(tags)
       )
       b.section({id: 'main'},
         b.section({id: 'pages'}, b.pages(pages)),
         b.section({id: 'posts'}, b.posts(posts))
-      )
+      ),
+      b.a({href: '#articles'}, b.img({src: 'images/toc.svg', id: 'toc-icon', class: 'nav', title: 'list of articles'})),
+      b.a({href: ''}, b.img({src: 'images/left-arrow.svg', id: 'later-icon', class: 'nav', title: 'later article'})),
+      b.a({href: ''}, b.img({src: 'images/right-arrow.svg', id: 'earlier-icon', class: 'nav', title: 'earlier article'}))
     })
+
+    $('.nav').click(function(){
+      $('html, body').animate({ scrollTop: 0 }, 0);
+    })
+
 
     route(latest.slug)
 
@@ -72,26 +104,27 @@
       return _.map(pages, this.page, this);
     },
     page: function(entry){
-      var b = this;
-      return _.tap(b.article({id: entry.slug},
+      var b = this, body = _.isFunction(entry.source) ? entry.source : null;
+      var article = b.article({id: entry.slug},
         b.h1(entry.title),
-        b.section({class: 'body'})
-      ).el()[0], function(page){
+        b.section({class: 'body'}, body)
+      ).el()[0];
+      return _.tap(article, function(page){
         $.data(page, 'entry', entry)
       })
     },
     posts: function posts(posts){
-      return _.map(posts, this.post, this)      
+      return _.map(posts, this.post, this)
     },
     post: function post(entry){
       var b = this;
-      return _.tap(b.article({id: entry.slug, class: 'commentable'}, 
-        b.span({class: 'date'}, entry.date), 
+      return _.tap(b.article({id: entry.slug, class: 'commentable'},
+        b.span({class: 'date'}, entry.date),
         entry.tags,
         function(idx, tag){
           b.span({class: 'tag'}, tag);
         },
-        b.h1(entry.title), 
+        b.h1(entry.title),
         function(x){
           if (entry.subtitle){
             b.p({class: 'subtitle'}, entry.subtitle)
@@ -106,7 +139,7 @@
   }
 
 
-  // 
+  //
   // content types
   //
 
@@ -119,8 +152,9 @@
   Site.prototype = new Entry()
 
   function Page(data){
-    data && (this.slug = data.source.split("/")[1].split(".")[0])
+    data && _.isString(data.source) && (this.slug = data.source.split("/")[1].split(".")[0])
     _.extend(this, data || {})
+    this.type || (this.type = 'page');
   }
 
   Page.prototype = new Entry()
@@ -152,20 +186,34 @@
 
 
 
-  // 
+  //
   // router is called when the hash changes
   //
 
-  function router(hash, target, index, info){
-    var title = info.grouped.site[0].title;
+  function router(hash, target, index){
+    var site = _.detect(index, function(item){
+      return item instanceof Site;
+    });
+    var posts = _.select(index, function(item){
+      return item instanceof Post;
+    })
+    var title = site.title;
     if (target.length == 0) {
        $('title').html(title)
        return
     }
 
-    var entry = $.data(target[0], 'entry')
-    
-    //locates and displays the select content  
+    var entry = $.data(target[0], 'entry');
+    var viewingArticles = entry.slug === 'articles';
+    var pos = posts.indexOf(entry); if (pos === -1) pos = -2;
+    var laterSlug   = (posts[pos - 1] || {}).slug;
+    var earlierSlug = (posts[pos + 1] || {}).slug;
+    var laterIcon   = $('#later-icon').parent(); laterSlug ? laterIcon.attr({href: '#' + laterSlug}).css({opacity: '1'}) : laterIcon.removeAttr('href').css({opacity: '.5'});
+    var ealierIcon  = $('#earlier-icon').parent(); earlierSlug ? ealierIcon.attr({href: '#' + earlierSlug}).css({opacity: '1'}) : ealierIcon.removeAttr('href').css({opacity: '.5'});
+    var tocIcon     = $('#toc-icon').parent(); viewingArticles ? tocIcon.removeAttr('href').css({opacity: '.5'}) : tocIcon.attr({href: '#articles'}).css({opacity: '1'});
+    var tagCloud    = $('#tag-cloud').css({opacity: viewingArticles ? '1' : '.5'});
+
+    //locates and displays the select content
     $.when($('article').fadeOut()).then(function(){
       $('title').html(entry.title + ' - ' + title)
     }).then($.data(target[0], 'entry').load(function(entry, first){
@@ -177,7 +225,7 @@
   }
 
 
-  // 
+  //
   // generate the site!
   //
 

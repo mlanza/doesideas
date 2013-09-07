@@ -77,7 +77,9 @@
         self.tags.push(tag);
         tag = tag.replace('/','');
         self[tag] = function(){
-          var args = $.makeArray(arguments);
+          var args = $.grep($.makeArray(arguments), function(arg){
+            return arg !== null;
+          });
           args.unshift(tag);
           return this.tag.apply(this, args);
         };
