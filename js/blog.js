@@ -7,13 +7,10 @@
   function render(index, route){
     var about = _.detect(index, function(asset){
       return asset instanceof Page && asset.title === "About"
-    })
-    var at = index.indexOf(about);
-
-    var articles = new Page({slug: 'articles', title: 'Articles', source: function(){
+    });
+    index.splice(index.indexOf(about) + 1, 0, new Page({slug: 'articles', title: 'Articles', source: function(){
       return this.postIndex(posts)[0]
-    }});
-    index.splice(at + 1, 0, articles);
+    }}));
 
     var info = {
       grouped: _.groupBy(index, function(entry){
@@ -195,7 +192,7 @@
     });
     var posts = _.select(index, function(item){
       return item instanceof Post;
-    })
+    }).reverse();
     var title = site.title;
     if (target.length == 0) {
        $('title').html(title)

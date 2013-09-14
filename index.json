@@ -11,10 +11,6 @@
 	"title": "About",
 	"source": "pages/about.md"
 },{
-	"type": "page",
-	"title": "Need a hand?",
-	"source": "pages/work.md"
-},{
 	"type": "post",
 	"title": "Lincoln's Axe and Making Good Software",
 	"subtitle": "",
