@@ -1,3 +1,3 @@
 # DoesIdeas
 
-This is the Jekyll project from which I created my blog.
+This is my shingle hung out on the Internet.
