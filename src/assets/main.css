@@ -148,3 +148,11 @@ span.date {
   font-size: .8em;
   color: seagreen;
 }
+h2 {
+  background-color: seagreen;
+  color: white;
+  font-family: "PT Sans Narrow";
+  padding: .2em .5em .2em 1em;
+  margin: 1em 0 0 -1em;
+  display: inline-block;
+}
