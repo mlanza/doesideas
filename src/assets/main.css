@@ -1,0 +1,150 @@
+@import url("//fonts.googleapis.com/css?family=Slabo+27px|PT+Sans+Narrow|Merriweather");
+@import url("/assets/prism.css");
+* {
+  color: #27332F;
+}
+body {
+  font-family: "Slabo 27px";
+}
+h1 {
+  font-size: 2.25em;
+  color: #13211d;
+  font-style: italic;
+}
+div.brand {
+  background-image: url("/assets/images/bulb.svg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 2em;
+  text-align: center;
+  font-size: 2.5em;
+  margin: 0;
+  padding: 0;
+  padding-top: 3em;
+  color: seagreen;
+}
+nav {
+  font-family: "Slabo 27px";
+  text-align: center;
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
+nav li {
+  padding:0;
+  margin:0;
+}
+nav a {
+  padding: .2em;
+}
+article {
+  margin: 0 auto;
+  font-size: 1.75em;
+  width: 33em;
+  padding-bottom: 5em;
+}
+article,
+ul.recent {
+  min-height: 20em;
+  margin: 1em auto;
+}
+ul.index {
+  list-style: none;
+  padding: 0;
+}
+ul.index li {
+  margin: 0;
+  margin-bottom: 1em;
+  padding-left: 1em;
+  position: relative;
+}
+ul.index li p {
+  margin: .25em 0 .5em;
+  font-size: .9em;
+}
+a {
+  color: #27332F;;
+  background-color: #c3e2cb;
+}
+ul.index li:after {
+  content: '';
+  height: .4em;
+  width: .4em;
+  background: darkseagreen;
+  display: block;
+  position: absolute;
+  transform: rotate(45deg);
+  top: .35em;
+  left: 0;
+}
+pre {
+  padding: 1em;
+  font-size: .7em;
+  background-color: #EEE;
+}
+article h1 {
+  margin: 0;
+  text-align: center;
+}
+header {
+  color: #34282C;
+}
+article header,
+.title {
+  font-family: Merriweather, Georgia;
+}
+dl.meta {
+  margin: 1.5em 2em;
+  font-family: "PT Sans Narrow";
+  padding: 0;
+  margin:0;
+}
+dl.meta dt {
+  text-align: center;
+   font-size: .8em;
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+}
+dl.meta dt,
+dl.meta dd {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+dl.meta dt {
+  margin-top: 1em;
+}
+dl.meta dd.wordcount {
+  text-align: center;
+}
+dl.meta dt:before,
+dl.meta dt:after {
+  content: "\2014";
+}
+dl.meta dd.summary {
+  background-color: #b7bcba;
+  padding: 1em;
+  margin: .25em;
+  border-left: solid .5em #798581;
+  font-size: .8em;
+}
+div.meta,
+div.teaser,
+div.byline {
+  text-align: center;
+  font-style: italic;
+}
+div.teaser {
+  font-size: 1.5em;
+}
+div.byline {
+  font-size: .8em;
+  margin: 1em;
+}
+span.date {
+  font-size: .8em;
+  color: seagreen;
+}

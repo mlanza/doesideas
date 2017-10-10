@@ -1,3 +1,3 @@
-# DoesIdeas
+# Does Ideas
 
-This is the Jekyll project from which I created my blog.
+Personal blog.
