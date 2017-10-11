@@ -1,20 +1,9 @@
 {{> header }}
 <article>
 <header>
-<h1>Tagged: {{tag}}</h1>
+<h1>Tags</h1>
 </header>
 <ul class="index">
-{{#each pagination.files}}
-  <li>
-    <span class="title"><a href="../../{{ path }}">{{ title }}</a></span>, <span class="date">{{ date }}</span>
-    <p class="summary">{{ summary }}</p>
-  </li>
-{{/each}}
+{{#each category}}<li><a href="/tagged/{{@key}}">{{@key}}</a></li>{{/each}}
 </ul>
-{{#if pagination.previous}}
-<a href="{{pagination.previous.path}}">Previous</a>
-{{/if}}
-{{#if pagination.next}}
-<a href="{{pagination.next.path}}">Next</a>
-{{/if}}
 {{> footer }}

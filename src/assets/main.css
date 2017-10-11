@@ -11,6 +11,22 @@ h1 {
   color: #13211d;
   font-style: italic;
 }
+.tags {
+  text-align: center;
+  margin: 1em auto;
+  width: 30em;
+  padding: 0;
+}
+.tags ul{
+  list-style: none;
+  padding: 0;
+  margin: .5em 0 0 0;
+}
+.tags li {
+  display: inline-block;
+  padding: 0;
+  margin: .2em 0;
+}
 div.brand {
   background-image: url("/assets/images/bulb.svg");
   background-repeat: no-repeat;
@@ -36,8 +52,9 @@ nav li {
   padding:0;
   margin:0;
 }
-nav a {
+nav a, .tags a {
   padding: .2em;
+  margin: .2em;
 }
 article {
   margin: 0 auto;

@@ -1,15 +1,16 @@
-var metalsmith = require('metalsmith');
-var markdown = require('metalsmith-markdown');
-var layouts = require('metalsmith-layouts');
-var handlebars = require('handlebars');
-var collections = require('metalsmith-collections');
-var permalinks = require('metalsmith-permalinks');
-var serve = require('metalsmith-serve');
-var watch = require('metalsmith-watch');
-var dateFormatter = require('metalsmith-date-formatter');
-var prism = require('metalsmith-prism');
-var wordcount = require('metalsmith-word-count');
-var tags = require('metalsmith-tags');
+var metalsmith = require('metalsmith'),
+    markdown = require('metalsmith-markdown'),
+    layouts = require('metalsmith-layouts'),
+    handlebars = require('handlebars'),
+    collections = require('metalsmith-collections'),
+    permalinks = require('metalsmith-permalinks'),
+    serve = require('metalsmith-serve'),
+    watch = require('metalsmith-watch'),
+    dateFormatter = require('metalsmith-date-formatter'),
+    prism = require('metalsmith-prism'),
+    wordcount = require('metalsmith-word-count'),
+    tags = require('metalsmith-tags'),
+    debug = require('metalsmith-debug');
 
 metalsmith(__dirname)
   .metadata({
@@ -24,7 +25,7 @@ metalsmith(__dirname)
   .use(tags({
     handle: 'tags',
     path:'tagged/:tag.html',
-    layout:'tags.html',
+    layout:'tagged.html',
     sortBy: 'date',
     reverse: true,
     skipMetadata: false,
@@ -61,14 +62,15 @@ metalsmith(__dirname)
 	}))
 	.use(serve({
 	  port: 8080,
-	  verbose: true
+	  verbose: false
 	}))
 	.use(watch({
 	    paths: {
 	      "${source}/**/*": true,
-	      "layout/**/*": "**/*",
+	      "layouts/**/*": "**/*",
 	    }
 	  }))
+  .use(debug())
   .build(function(err) {
     if (err) {
       console.error(err);
