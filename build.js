@@ -9,6 +9,7 @@ var watch = require('metalsmith-watch');
 var dateFormatter = require('metalsmith-date-formatter');
 var prism = require('metalsmith-prism');
 var wordcount = require('metalsmith-word-count');
+var tags = require('metalsmith-tags');
 
 metalsmith(__dirname)
   .metadata({
@@ -20,6 +21,16 @@ metalsmith(__dirname)
   .source('./src')
   .destination('./public')
 	.use(dateFormatter())
+  .use(tags({
+    handle: 'tags',
+    path:'tagged/:tag.html',
+    layout:'tags.html',
+    sortBy: 'date',
+    reverse: true,
+    skipMetadata: false,
+    metadataKey: "category",
+    slug: {mode: 'rfc3986'}
+  }))
   .use(collections({
     articles: {
       pattern: 'articles/**/*.md',

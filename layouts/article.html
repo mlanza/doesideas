@@ -13,6 +13,7 @@
   <dd class="wordcount">{{{ wordCount }}}</dd>
 </dl>
 {{/if}}
+{{#each tags}}<span class="tag">{{name}}</span>{{/each}}
 {{{ contents }}}
 </article>
 {{> footer }}
