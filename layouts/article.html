@@ -5,15 +5,21 @@
   {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}
   {{#if date}}<div class="byline">{{#if author}}by {{ author }}, {{/if}}{{ date }}</div>{{/if}}
 </header>
+{{#if tags}}
+<ul class="tags">
+{{#each tags}}
+<li><a href="/tagged/{{name}}">{{name}}</a></li>
+{{/each}}
+</ul>
+{{/if}}
 {{#if summary}}
 <dl class="meta">
   <dt class="summary">Summary</dt>
-  <dd class="summary">{{{ summary }}}</dd>
+  <dd>{{{ summary }}}</dd>
   <dt class="wordcount">Word Count</dt>
-  <dd class="wordcount">{{{ wordCount }}}</dd>
+  <dd>{{{ wordCount }}}</dd>
 </dl>
 {{/if}}
-{{#each tags}}<span class="tag">{{name}}</span>{{/each}}
 {{{ contents }}}
 </article>
 <nav>

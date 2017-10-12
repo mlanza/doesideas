@@ -11,18 +11,18 @@ header {
 h1 {
   font-size: 2.25em;
 }
-.tags {
+article > .tags {
   text-align: center;
   margin: 1em auto;
   width: 30em;
   padding: 0;
 }
-.tags ul{
+article > .tags ul {
   list-style: none;
   padding: 0;
   margin: .5em 0 0 0;
 }
-.tags li {
+article > .tags li {
   display: inline-block;
   padding: 0;
   margin: .2em 0;
@@ -97,57 +97,58 @@ header,
 .title {
   font-family: Merriweather, Georgia;
 }
-dl.meta {
-  margin: 1.5em 2em;
+.meta {
   font-family: "PT Sans Narrow";
   padding: 0;
-  margin:0;
+  margin: 0;
+  display: block;
 }
-dl.meta dt {
+.meta span {
+  color: #b7bcba;
+}
+.meta dt {
   text-align: center;
-   font-size: .8em;
+  font-size: .8em;
   margin: 0 auto;
   width: auto;
   text-align: center;
 }
-dl.meta dt,
-dl.meta dd {
+.meta dt,
+.meta dd {
   margin: 0;
   padding: 0;
   display: block;
 }
-dl.meta dt {
+.meta dt {
   margin-top: 1em;
 }
-dl.meta dd.wordcount {
+.meta dt.wordcount + dd {
   text-align: center;
 }
-dl.meta dt:before,
-dl.meta dt:after {
+.meta dt:before,
+.meta dt:after {
   content: "\2014";
 }
-dl.meta dd.summary {
+.meta dt.summary + dd {
   padding: 1em;
   margin: .25em;
   border-left: solid .5em;
   font-size: .8em;
 }
-div.meta,
-div.teaser,
-div.byline {
+.teaser,
+.byline {
   text-align: center;
-  font-style: italic;
+
 }
-div.teaser {
+.teaser {
   font-size: 1.5em;
 }
-div.byline {
+.byline {
   font-size: .8em;
   margin: 1em;
 }
-span.date {
+.date {
   font-size: .8em;
-
 }
 h2 {
   font-family: "PT Sans Narrow";
@@ -158,12 +159,11 @@ h2 {
 footer {
   text-align: center;
 }
-
 .brand {
   background-image: url("/assets/images/bulb.svg");
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: 2em;
+  background-size: 3.25em;
   text-align: center;
   font-size: 2.5em;
   margin: 0;
@@ -172,8 +172,17 @@ footer {
   display: block;
   background-color:  transparent;
 }
-
-
+ul.index ul {
+  list-style: none;
+  margin: 0 0 0 1em;
+  padding: 0;
+  font-size: .75em;
+  display: block;
+}
+ul.index ul li {
+  padding: 0;
+  display: inline-block;
+}
 /* color palette */
 
 *, a {
@@ -199,7 +208,7 @@ pre {
 header {
   color: #34282C;
 }
-dl.meta dd.summary {
+.meta dt.summary + dd {
   background-color: #b7bcba;
   border-color: #798581;
 }
@@ -209,6 +218,9 @@ h2 {
 span.date, a.brand {
   color: #cc8400;
 }
-h2, ul.index li:after {
+h2, ul.index > li:after {
   background-color: #cc8400;
+}
+.tags a {
+  background-color: #ffedcc;
 }

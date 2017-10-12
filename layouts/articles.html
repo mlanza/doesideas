@@ -5,10 +5,11 @@
 </header>
 <ul class="index">
 {{#each articles }}
-  <li>
-    <span class="title"><a href="../{{ path }}">{{ title }}</a></span>, <span class="date">{{ date }}</span>
-    <p class="summary">{{ summary }}</p>
-  </li>
+<li>
+  <span class="title"><a href="../{{ path }}">{{ title }}</a></span>, <span class="date">{{ date }}</span>
+  <p class="summary">{{ summary }}</p>
+  <ul class="tags">{{#each tags}}<li><a href="/tagged/{{name}}">{{name}}</a></li>{{/each}}</ul>
+</li>
 {{/each}}
 </ul>
 </article>

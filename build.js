@@ -10,6 +10,7 @@ var metalsmith = require('metalsmith'),
     prism = require('metalsmith-prism'),
     wordcount = require('metalsmith-word-count'),
     tags = require('metalsmith-tags'),
+    linkcheck = require('metalsmith-linkcheck'),
     debug = require('metalsmith-debug');
 
 metalsmith(__dirname)
@@ -24,8 +25,8 @@ metalsmith(__dirname)
 	.use(dateFormatter())
   .use(tags({
     handle: 'tags',
-    path:'tagged/:tag.html',
-    layout:'tagged.html',
+    path: 'tagged/:tag.html',
+    layout: 'tagged.html',
     sortBy: 'date',
     reverse: true,
     skipMetadata: false,
@@ -72,7 +73,7 @@ metalsmith(__dirname)
 	  partials: {
       header: 'partials/header',
       footer: 'partials/footer',
-      article: "partials/article"
+      article: 'partials/article'
     }
 	}))
 	.use(serve({
@@ -85,6 +86,7 @@ metalsmith(__dirname)
       "layouts/**/*": "**/*",
     }
 	}))
+  .use(linkcheck())
   .use(debug())
   .build(function(err) {
     if (err) {
