@@ -3,7 +3,7 @@
 <header>
   <h1>{{ title }}</h1>
   {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}
-  {{#if date}}<div class="byline">by {{#if author}}{{ author }}{{ else }}{{ site.author }}{{/if}}, {{ date }}</div>{{/if}}
+  {{#if date}}<div class="byline">{{#if author}}by {{ author }}, {{/if}}{{ date }}</div>{{/if}}
 </header>
 {{#if summary}}
 <dl class="meta">
@@ -16,4 +16,8 @@
 {{#each tags}}<span class="tag">{{name}}</span>{{/each}}
 {{{ contents }}}
 </article>
+<nav>
+  {{#if previous}}&laquo; <a href="/{{previous.path}}">{{previous.title}}</a>{{/if}}
+  {{#if next}}<a href="/{{next.path}}">{{next.title}}</a> &raquo; {{/if}}
+</nav>
 {{> footer }}

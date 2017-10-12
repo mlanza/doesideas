@@ -1,7 +1,7 @@
 {{> header }}
 <article>
 <header>
-<h1>Tagged: {{tag}}</h1>
+<h1>Tagged “{{tag}}”</h1>
 </header>
 <ul class="index">
 {{#each pagination.files}}
@@ -11,10 +11,5 @@
   </li>
 {{/each}}
 </ul>
-{{#if pagination.previous}}
-<a href="{{pagination.previous.path}}">Previous</a>
-{{/if}}
-{{#if pagination.next}}
-<a href="{{pagination.next.path}}">Next</a>
-{{/if}}
+</article>
 {{> footer }}

@@ -45,7 +45,11 @@ metalsmith(__dirname)
       reverse: true
       },
     }))
-	.use(markdown({langPrefix: "language-"}))
+	.use(markdown({
+    langPrefix: "language-",
+    smartypants: true,
+    gfm: true
+  }))
   .use(wordcount())
   .use(prism({
     lineNumbers: true,
@@ -57,7 +61,7 @@ metalsmith(__dirname)
 		pattern: ':title',
     linksets: [{
       match: { collection: 'articles' },
-      pattern: 'articles/:title'
+      pattern: 'articles/:slug'
     }]
 	}))
 	.use(layouts({

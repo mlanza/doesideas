@@ -1,15 +1,15 @@
 @import url("//fonts.googleapis.com/css?family=Slabo+27px|PT+Sans+Narrow|Merriweather");
 @import url("/assets/prism.css");
-* {
-  color: #27332F;
-}
 body {
   font-family: "Slabo 27px";
 }
+header {
+  font-style: italic;
+  width: 43em;
+  margin: 0 -5em;
+}
 h1 {
   font-size: 2.25em;
-  color: #13211d;
-  font-style: italic;
 }
 .tags {
   text-align: center;
@@ -26,18 +26,6 @@ h1 {
   display: inline-block;
   padding: 0;
   margin: .2em 0;
-}
-div.brand {
-  background-image: url("/assets/images/bulb.svg");
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 2em;
-  text-align: center;
-  font-size: 2.5em;
-  margin: 0;
-  padding: 0;
-  padding-top: 3em;
-  color: seagreen;
 }
 nav {
   font-family: "Slabo 27px";
@@ -70,6 +58,8 @@ ul.recent {
 ul.index {
   list-style: none;
   padding: 0;
+  margin: 1em auto;
+  width: 33em;
 }
 ul.index li {
   margin: 0;
@@ -81,12 +71,7 @@ ul.index li p {
   margin: .25em 0 .5em;
   font-size: .9em;
 }
-a {
-  color: #27332F;;
-  background-color: #c3e2cb;
-}
-.brand a {
-  background-color: transparent;
+a.brand {
   text-decoration: none;
   color: inherit;
 }
@@ -94,7 +79,6 @@ ul.index li:after {
   content: '';
   height: .4em;
   width: .4em;
-  background: darkseagreen;
   display: block;
   position: absolute;
   transform: rotate(45deg);
@@ -104,16 +88,12 @@ ul.index li:after {
 pre {
   padding: 1em;
   font-size: .7em;
-  background-color: #EEE;
 }
-article h1 {
-  margin: 0;
+header h1 {
+  margin: 1em 0 0 0;
   text-align: center;
 }
-header {
-  color: #34282C;
-}
-article header,
+header,
 .title {
   font-family: Merriweather, Georgia;
 }
@@ -147,10 +127,9 @@ dl.meta dt:after {
   content: "\2014";
 }
 dl.meta dd.summary {
-  background-color: #b7bcba;
   padding: 1em;
   margin: .25em;
-  border-left: solid .5em #798581;
+  border-left: solid .5em;
   font-size: .8em;
 }
 div.meta,
@@ -168,13 +147,68 @@ div.byline {
 }
 span.date {
   font-size: .8em;
-  color: seagreen;
+
 }
 h2 {
-  background-color: seagreen;
-  color: white;
   font-family: "PT Sans Narrow";
   padding: .2em .5em .2em 1em;
   margin: 1em 0 0 -1em;
   display: inline-block;
+}
+footer {
+  text-align: center;
+}
+
+.brand {
+  background-image: url("/assets/images/bulb.svg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 2em;
+  text-align: center;
+  font-size: 2.5em;
+  margin: 0;
+  padding: 0;
+  padding-top: 3em;
+  display: block;
+  background-color:  transparent;
+}
+
+
+/* color palette */
+
+*, a {
+  color: #27332F;
+}
+h1 {
+  color: #13211d;
+}
+a {
+  background-color: #ffd27f;
+  background-color: rgba(204, 132, 0, .33);
+}
+mark {
+  background-color: rgba(204, 132, 0, .25)
+}
+a.brand {
+  color: inherit;
+  background-color: transparent;
+}
+pre {
+  background-color: #EEE;
+}
+header {
+  color: #34282C;
+}
+dl.meta dd.summary {
+  background-color: #b7bcba;
+  border-color: #798581;
+}
+h2 {
+  color: white;
+}
+span.date, a.brand {
+  color: #cc8400;
+}
+h2, ul.index li:after {
+  background-color: #cc8400;
 }
