@@ -85,6 +85,11 @@ a {
   color: #27332F;;
   background-color: #c3e2cb;
 }
+.brand a {
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
+}
 ul.index li:after {
   content: '';
   height: .4em;

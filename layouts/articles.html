@@ -1,0 +1,15 @@
+{{> header }}
+<article>
+<header>
+<h1>Articles</h1>
+</header>
+<ul class="index">
+{{#each articles }}
+  <li>
+    <span class="title"><a href="../{{ path }}">{{ title }}</a></span>, <span class="date">{{ date }}</span>
+    <p class="summary">{{ summary }}</p>
+  </li>
+{{/each}}
+</ul>
+</article>
+{{> footer }}

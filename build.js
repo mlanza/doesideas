@@ -29,10 +29,16 @@ metalsmith(__dirname)
     sortBy: 'date',
     reverse: true,
     skipMetadata: false,
-    metadataKey: "category",
+    metadataKey: "tags",
     slug: {mode: 'rfc3986'}
   }))
   .use(collections({
+    latest: {
+      pattern: 'articles/**/*.md',
+      sortBy: 'date',
+      reverse: true,
+      limit: 1
+    },
     articles: {
       pattern: 'articles/**/*.md',
       sortBy: 'date',
@@ -48,7 +54,11 @@ metalsmith(__dirname)
   }))
 	.use(permalinks({
 	  relative: false,
-		pattern: ':title'
+		pattern: ':title',
+    linksets: [{
+      match: { collection: 'articles' },
+      pattern: 'articles/:title'
+    }]
 	}))
 	.use(layouts({
 		engine: 'handlebars',
@@ -57,7 +67,8 @@ metalsmith(__dirname)
 		pattern: ["*/*/*html","*/*html","*html"],
 	  partials: {
       header: 'partials/header',
-      footer: 'partials/footer'
+      footer: 'partials/footer',
+      article: "partials/article"
     }
 	}))
 	.use(serve({
@@ -65,11 +76,11 @@ metalsmith(__dirname)
 	  verbose: false
 	}))
 	.use(watch({
-	    paths: {
-	      "${source}/**/*": true,
-	      "layouts/**/*": "**/*",
-	    }
-	  }))
+	  paths: {
+      "${source}/**/*": true,
+      "layouts/**/*": "**/*",
+    }
+	}))
   .use(debug())
   .build(function(err) {
     if (err) {
