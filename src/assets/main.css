@@ -1,28 +1,26 @@
-@import url("//fonts.googleapis.com/css?family=Slabo+27px|PT+Sans+Narrow|Merriweather");
+@import url("//fonts.googleapis.com/css?family=Slabo+27px|PT+Sans+Narrow|Merriweather|Inconsolata");
 @import url("/assets/prism.css");
 body {
   font-family: "Slabo 27px";
-}
-header {
-  font-style: italic;
-  width: 43em;
-  margin: 0 -5em;
+  padding: 0;
+  margin: 0;
 }
 h1 {
   font-size: 2.25em;
 }
-article > .tags {
+article header .tags {
   text-align: center;
   margin: 1em auto;
-  width: 30em;
+  max-width: 30em;
   padding: 0;
 }
-article > .tags ul {
+article .tags ul {
   list-style: none;
   padding: 0;
   margin: .5em 0 0 0;
+  text-align: center;
 }
-article > .tags li {
+article .tags li {
   display: inline-block;
   padding: 0;
   margin: .2em 0;
@@ -43,12 +41,32 @@ nav li {
 nav a, .tags a {
   padding: .2em;
   margin: .2em;
+  font-style: normal;
+  font-family: "Slabo 27px";
+}
+.meta {
+  font-style: normal;
 }
 article {
-  margin: 0 auto;
+  margin: 1em auto 5em;
   font-size: 1.75em;
-  width: 33em;
-  padding-bottom: 5em;
+  width: 100%;
+  padding: 0;
+}
+article > * {
+  max-width: 32em;
+  padding: 0 1em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1em;
+}
+article header {
+  font-style: italic;
+  max-width: 100%;
+  margin: 1em 0;
+}
+article header h1 {
+  margin-top: 0;
 }
 article,
 ul.recent {
@@ -57,9 +75,9 @@ ul.recent {
 }
 ul.index {
   list-style: none;
-  padding: 0;
+  padding: 1em;
   margin: 1em auto;
-  width: 33em;
+  max-width: 33em;
 }
 ul.index li {
   margin: 0;
@@ -85,10 +103,6 @@ ul.index li:after {
   top: .35em;
   left: 0;
 }
-pre {
-  padding: 1em;
-  font-size: .7em;
-}
 header h1 {
   margin: 1em 0 0 0;
   text-align: center;
@@ -99,46 +113,33 @@ header,
 }
 .meta {
   font-family: "PT Sans Narrow";
-  padding: 0;
-  margin: 0;
+  list-style: none;
   display: block;
-}
-.meta span {
-  color: #b7bcba;
-}
-.meta dt {
-  text-align: center;
-  font-size: .8em;
+  max-width: 35em;
+  padding: 0;
   margin: 0 auto;
+}
+.meta li {
+  padding: 0;
+  margin: 0 auto .5em;
   width: auto;
   text-align: center;
+
 }
-.meta dt,
-.meta dd {
-  margin: 0;
-  padding: 0;
-  display: block;
-}
-.meta dt {
-  margin-top: 1em;
-}
-.meta dt.wordcount + dd {
+.meta li.wordcount {
   text-align: center;
+  font-size: .8em;
 }
-.meta dt:before,
-.meta dt:after {
-  content: "\2014";
-}
-.meta dt.summary + dd {
+.meta li.summary p {
   padding: 1em;
   margin: .25em;
   border-left: solid .5em;
   font-size: .8em;
+  text-align: left;
 }
 .teaser,
 .byline {
   text-align: center;
-
 }
 .teaser {
   font-size: 1.5em;
@@ -153,11 +154,13 @@ header,
 h2 {
   font-family: "PT Sans Narrow";
   padding: .2em .5em .2em 1em;
-  margin: 1em 0 0 -1em;
+  margin: 0 0 0 -1em;
+  font-size: 1.5em;
   display: inline-block;
 }
 footer {
   text-align: center;
+  margin: 1em 0;
 }
 .brand {
   background-image: url("/assets/images/bulb.svg");
@@ -183,6 +186,27 @@ ul.index ul li {
   padding: 0;
   display: inline-block;
 }
+pre {
+  padding: 1em;
+  font-size: .8em;
+  margin: 0;
+  max-width: 100%;
+  text-align: center;
+}
+pre code {
+  display: inline-block;
+  margin: 0 auto;
+  min-width: 37em;
+  line-height: 1.2em !important;
+}
+pre[class*="language-"] {
+  text-align: center;
+}
+pre[class*="language-"],
+code[class*="language-"] {
+  font-family: Inconsolata;
+}
+
 /* color palette */
 
 *, a {
@@ -192,23 +216,19 @@ h1 {
   color: #13211d;
 }
 a {
-  background-color: #ffd27f;
   background-color: rgba(204, 132, 0, .33);
 }
 mark {
-  background-color: rgba(204, 132, 0, .25)
+  background-color: rgba(228, 238, 211, .75);
 }
 a.brand {
   color: inherit;
   background-color: transparent;
 }
-pre {
-  background-color: #EEE;
-}
 header {
   color: #34282C;
 }
-.meta dt.summary + dd {
+.meta .summary p {
   background-color: #b7bcba;
   border-color: #798581;
 }
@@ -222,5 +242,5 @@ h2, ul.index > li:after {
   background-color: #cc8400;
 }
 .tags a {
-  background-color: #ffedcc;
+  background-color: #e4eed3;
 }

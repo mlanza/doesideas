@@ -4,7 +4,6 @@
   <h1>{{ title }}</h1>
   {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}
   {{#if date}}<div class="byline">{{#if author}}by {{ author }}, {{/if}}{{ date }}</div>{{/if}}
-</header>
 {{#if tags}}
 <ul class="tags">
 {{#each tags}}
@@ -13,17 +12,14 @@
 </ul>
 {{/if}}
 {{#if summary}}
-<dl class="meta">
-  <dt class="summary">Summary</dt>
-  <dd>{{{ summary }}}</dd>
-  <dt class="wordcount">Word Count</dt>
-  <dd>{{{ wordCount }}}</dd>
-</dl>
+<ul class="meta">
+  <li class="summary">
+    <p>{{{ summary }}}</p>
+  </li>
+  <li class="wordcount">&mdash; {{{ wordCount }}} words &mdash;</li>
+</ul>
 {{/if}}
+</header>
 {{{ contents }}}
 </article>
-<nav>
-  {{#if previous}}&laquo; <a href="/{{previous.path}}">{{previous.title}}</a>{{/if}}
-  {{#if next}}<a href="/{{next.path}}">{{next.title}}</a> &raquo; {{/if}}
-</nav>
 {{> footer }}

@@ -1,4 +1,8 @@
 <footer>
+<nav>
+  {{#if previous}}&laquo; <a href="/{{previous.path}}">{{previous.title}}</a>{{/if}}
+  {{#if next}}<a href="/{{next.path}}">{{next.title}}</a> &raquo; {{/if}}
+</nav>
 </footer>
 </body>
 </html>
