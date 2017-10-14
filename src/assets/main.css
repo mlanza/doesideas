@@ -50,8 +50,9 @@ nav a, .tags a {
 article {
   margin: 1em auto 5em;
   font-size: 1.75em;
-  width: 100%;
+  max-width: 32em;
   padding: 0;
+  position: relative;
 }
 article > * {
   max-width: 32em;
@@ -62,7 +63,7 @@ article > * {
 }
 article header {
   font-style: italic;
-  max-width: 100%;
+  position: relative;
   margin: 1em 0;
 }
 article header h1 {
@@ -73,19 +74,16 @@ ul.recent {
   min-height: 20em;
   margin: 1em auto;
 }
-ul.index {
+article > ul {
   list-style: none;
-  padding: 1em;
-  margin: 1em auto;
-  max-width: 33em;
 }
-ul.index li {
+article > ul li {
   margin: 0;
   margin-bottom: 1em;
   padding-left: 1em;
   position: relative;
 }
-ul.index li p {
+article > ul li p {
   margin: .25em 0 .5em;
   font-size: .9em;
 }
@@ -93,7 +91,7 @@ a.brand {
   text-decoration: none;
   color: inherit;
 }
-ul.index li:after {
+article > ul li:after {
   content: '';
   height: .4em;
   width: .4em;
@@ -102,6 +100,11 @@ ul.index li:after {
   transform: rotate(45deg);
   top: .35em;
   left: 0;
+}
+article ul.tags li:after {
+  list-style:  none;
+  display: none;
+
 }
 header h1 {
   margin: 1em 0 0 0;
@@ -124,7 +127,6 @@ header,
   margin: 0 auto .5em;
   width: auto;
   text-align: center;
-
 }
 .meta li.wordcount {
   text-align: center;
@@ -154,13 +156,14 @@ header,
 h2 {
   font-family: "PT Sans Narrow";
   padding: .2em .5em .2em 1em;
-  margin: 0 0 0 -1em;
+  margin: 0;
   font-size: 1.5em;
   display: inline-block;
 }
 footer {
   text-align: center;
   margin: 1em 0;
+  padding: 1em 1em 2em;
 }
 .brand {
   background-image: url("/assets/images/bulb.svg");
@@ -175,14 +178,14 @@ footer {
   display: block;
   background-color:  transparent;
 }
-ul.index ul {
+article > ul ul {
   list-style: none;
   margin: 0 0 0 1em;
   padding: 0;
   font-size: .75em;
   display: block;
 }
-ul.index ul li {
+article > ul ul li {
   padding: 0;
   display: inline-block;
 }
@@ -196,7 +199,7 @@ pre {
 pre code {
   display: inline-block;
   margin: 0 auto;
-  min-width: 37em;
+  min-width: 35em;
   line-height: 1.2em !important;
 }
 pre[class*="language-"] {
@@ -205,6 +208,12 @@ pre[class*="language-"] {
 pre[class*="language-"],
 code[class*="language-"] {
   font-family: Inconsolata;
+}
+article header, pre[class*="language-"] {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 1em 0;
 }
 
 /* color palette */
@@ -238,7 +247,7 @@ h2 {
 span.date, a.brand {
   color: #cc8400;
 }
-h2, ul.index > li:after {
+h2, article > ul > li:after {
   background-color: #cc8400;
 }
 .tags a {
