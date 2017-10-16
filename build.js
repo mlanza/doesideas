@@ -34,18 +34,12 @@ metalsmith(__dirname)
     slug: {mode: 'rfc3986'}
   }))
   .use(collections({
-    latest: {
-      pattern: 'articles/**/*.md',
-      sortBy: 'date',
-      reverse: true,
-      limit: 1
-    },
     articles: {
       pattern: 'articles/**/*.md',
       sortBy: 'date',
       reverse: true
-      },
-    }))
+    }
+  }))
 	.use(markdown({
     langPrefix: "language-",
     smartypants: true,

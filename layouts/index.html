@@ -1,5 +1,7 @@
 {{> header }}
-{{#each latest }}
-{{> article }}
+{{#each articles }}
+  {{#if @first}}
+    {{> article }}
+    {{> footer}}
+  {{/if}}
 {{/each}}
-{{> footer }}

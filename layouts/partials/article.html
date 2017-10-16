@@ -1,17 +1,23 @@
 <article>
 <header>
-  <h1>{{ title }}</h1>
-  {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}
+  <a class="permalink" href="/{{ path }}"><h1>{{ title }}</h1>
+  {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}</a>
   {{#if date}}<div class="byline">by {{#if author}}{{ author }}{{ else }}{{ site.author }}{{/if}}, {{ date }}</div>{{/if}}
-</header>
-{{#if summary}}
-<dl class="meta">
-  <dt class="summary">Summary</dt>
-  <dd class="summary">{{{ summary }}}</dd>
-  <dt class="wordcount">Word Count</dt>
-  <dd class="wordcount">{{{ wordCount }}}</dd>
-</dl>
+{{#if tags}}
+<ul class="tags">
+{{#each tags}}
+<li><a href="/tagged/{{name}}">{{name}}</a></li>
+{{/each}}
+</ul>
 {{/if}}
-{{#each tags}}<span class="tag">{{name}}</span>{{/each}}
+{{#if summary}}
+<ul class="meta">
+  <li class="summary">
+    <p>{{{ summary }}}</p>
+  </li>
+  <li class="wordcount">&mdash; {{{ wordCount }}} words &mdash;</li>
+</ul>
+{{/if}}
+</header>
 {{{ contents }}}
 </article>

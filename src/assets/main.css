@@ -66,6 +66,9 @@ article header {
   position: relative;
   margin: 1em 0;
 }
+a.permalink {
+  text-decoration: none;
+}
 article header h1 {
   margin-top: 0;
 }
@@ -216,6 +219,10 @@ article header, pre[class*="language-"] {
   padding: 1em 0;
 }
 
+pre[class*="language-"] {
+  padding: 1em;
+
+}
 /* color palette */
 
 *, a {
