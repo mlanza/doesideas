@@ -4,7 +4,7 @@ slug: pomodoro
 author: Mario T. Lanza
 date: 2017-10-12
 tags: productivity
-teaser: Eliminate distractions to maximize your efficiency.
+teaser: Eliminate distractions to maximize your efficiency
 summary: Eliminate distractions to maximize your efficiency.
 ---
 
