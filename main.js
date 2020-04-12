@@ -12,14 +12,13 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function selectQuote(context){
-    var els = context.querySelectorAll("blockquote"),
-        sel = els[param('idx') || randomize(0, els.length - 1)];
+  function select(els){
+    var sel = els[param('idx') || randomize(0, els.length - 1)];
     els.forEach(function(el){
       el.className = el == sel ? "selected" : "";
     });
   }
 
-  selectQuote(document.body);
+  select(document.body.querySelectorAll("blockquote"));
 
 })();
