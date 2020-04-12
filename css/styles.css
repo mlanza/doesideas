@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Kristi|Merriweather&display=swap');
+@import url('https://fonts.googleapis.com/css?family=DM+Serif+Text|Kristi|Merriweather&display=swap');
+mily=DM+Serif+Text|Kristi|Merriweather&display=swap
 html {
   background-color: white;
   font-family: Tahoma, Geneva, sans-serif;
@@ -9,14 +10,37 @@ body {
   margin: 0;
   text-align: center;
 }
+article {
+  max-width: 40em;
+  padding: 1em;
+  text-align: left;
+  margin: 0 auto;
+}
+article h1,
+article h2,
+article h3,
+article h4,
+article h5 {
+  font-family: "DM Serif Text";
+  margin: .75em 0 .25em 0;
+  padding: 0;
+}
+article h1 {
+  font-size: 2em;
+}
+p {
+  margin: 0 0 1em 0;
+}
 #shingle {
   font-size: 1.3em;
   font-family: Merriweather;
   background-image: url(/images/paisley.png);
 }
-#shingle h1 {
+h1#sitename {
   font-size: 5em;
   font-family: Kristi, cursive;
+  padding: 0;
+  margin: 0;
 }
 #shingle,
 #shingle * {
@@ -40,24 +64,12 @@ blockquote cite {
   text-align: right;
   margin-top: .5em;
 }
-h1 {
-  margin: 0;
-  padding: 0;
-}
-p {
-  font-size: 1.2em;
-  padding: 0;
-  margin: 0;
-}
-img#bulb {
-  width: 7em;
-  margin-bottom: 1em;
-}
 #whereabouts {
   padding: 0;
   display: inline-block;
 }
-#whereabouts a, #whereabouts img {
+#whereabouts a,
+#whereabouts img {
   width: 5em;
   height: 5em;
   margin: 0 .25em;
