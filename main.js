@@ -17,21 +17,39 @@ function select(els){
   });
 }
 
-function gist(hash){
-  var id = (hash || "").substring(1);
-  var converter = new showdown.Converter();
-  var article = document.createElement("article");
-  id && fetch("https://api.github.com/gists/" + id).then(function(resp) {
+function gist(id){
+  return fetch("https://api.github.com/gists/" + id).then(function(resp) {
     return resp.json();
-  }).then(function(data){
-    return converter.makeHtml(data.files["training-manuals.md"].content);
-  }).then(function(html){
-    article.innerHTML = html;
   });
-  return article;
+}
+
+function quotes(){
+  return gist("2d5f242de059c365f23dc6f786ef5788").then(function(data){
+    var key = Object.keys(data.files)[0],
+        quotes = JSON.parse(data.files[key].content);
+    return quotes;
+  }, function(){
+    return [{
+      "said": "To me, ideas are worth nothing unless executed. They are just a multiplier. Execution is worth millions.",
+      "who": "Steve Jobs"
+    }];
+  });
 }
 
 select(document.body.querySelectorAll("blockquote"));
-document.body.appendChild(gist(window.location.hash));
+quotes().then(function(quotes){
+  var idx = randomize(0, quotes.length - 1),
+      quote = quotes[idx],
+      bq = document.getElementById("quote"),
+      cite = document.createElement("cite");
+  bq.innerHTML = "“" + quote.said.replace(/\n/g, "<br>") + "”";
+  cite.innerText = quote.who;
+  bq.appendChild(cite);
+});
 
-    //"https://api.github.com/users/mlanza/repos"
+window.location.hash && gist(window.location.hash.substring(1)).then(function(data){
+  var key = Object.keys(data.files)[0],
+      content = data.files[key].content,
+      converter = new showdown.Converter();
+  document.getElementById("post").innerHTML = converter.makeHtml(content);
+});

@@ -46,15 +46,14 @@ h1#sitename {
 #shingle * {
   color: #36454f;
 }
-#shingle blockquote {
+blockquote#quote {
+  min-height: 4em;
+}
+blockquote {
   font-size: 1.2em;
   margin: 0 auto;
-  max-width: 30em;
+  max-width: 35em;
   padding-bottom: 1em;
-  display: none;
-}
-#shingle blockquote.selected {
-  display: block;
 }
 blockquote cite::before {
   content: "—";
