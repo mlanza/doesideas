@@ -170,8 +170,12 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
     return idx < xs.length ? idx : null;
   }
 
+  var fwd = dom.sel1("#fwd"),
+      bwd = dom.sel1("#bwd");
+
   $.sub($hash, t.map(_.identity), function(hash){
     dom.empty(dom.sel1("#post"));
+    _.each(dom.hide, [fwd, bwd]);
   });
 
   $.sub($hash, _.comp(t.filter(_.startsWith(_, "#post/")), t.map(_.pipe(_.split(_, "/"), _.last))), function(slug){
@@ -179,12 +183,20 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
       var idx = pos(function(post){
         return post.slug === slug;
       }, posts);
+
+      var prev = _.maybe(posts, _.nth(_, idx - 1), _.get(_, "slug"), _.str("#post/", _)),
+          next = _.maybe(posts, _.nth(_, idx + 1), _.get(_, "slug"), _.str("#post/", _));
+
+      dom.toggle(bwd, prev);
+      dom.toggle(fwd, next);
+      dom.attr(bwd, "href", prev);
+      dom.attr(fwd, "href", next);
+
       at($blog, ["posts", idx, "body"], function(){
         _.just($posts, _.deref, _.get(_, slug), function(post){
           _.doto(dom.sel1("#post"),
             dom.html(_, post.body),
-            dom.prepend(_, h1(post.title)),
-            dom.append(_, img({class: 'divider', src: "images/divider.png"})));
+            dom.prepend(_, h1(post.title)));
         });
         window.scrollTo(0,0);
       });

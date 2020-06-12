@@ -13,8 +13,19 @@ body {
 a.plain {
   text-decoration: none !important;
 }
+#fwd {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+}
+#bwd {
+  position: fixed;
+  top: 1em;
+  right: 2em;
+}
 #sitename {
   text-transform: lowercase;
+  display: inline;
 }
 #posts {
   margin: 1em auto;
