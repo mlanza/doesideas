@@ -1,4 +1,4 @@
-define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives', 'atomic/transducers'], function(_, r, dom, $, t){
+define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives', 'atomic/transducers', 'showdown'], function(_, r, dom, $, t, showdown){
 
   var li = dom.tag('li'),
       h1 = dom.tag('h1'),
@@ -10,8 +10,15 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
       td = dom.tag('td'),
       tbody = dom.tag('tbody');
 
-  var gists = _.just(
+  showdown.setFlavor('github');
+
+  var _gists = _.just(
     r.request(r.url("https://api.github.com/gists/{id}")),
+    r.raise,
+    r.json);
+
+  var _comments = _.just(
+    r.request(r.url("https://api.github.com/gists/{id}/comments")),
     r.raise,
     r.json);
 
@@ -19,12 +26,8 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
       asof = _.maybe(qs, _.get(_, "asof"), _.blot, _.date) || _.date();
 
   function markdown(text){
-    return new Promise(function(resolve, reject){
-      require(['showdown'], function(showdown){
-        var converter = new showdown.Converter();
-        resolve(converter.makeHtml(text));
-      }, reject);
-    });
+    var converter = new showdown.Converter();
+    return converter.makeHtml(text);
   }
 
   var mimeTypes = {
@@ -37,40 +40,34 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
     return f(meta.content);
   }
 
-  function sess(f){
+  function sess(prefix, f){
     return ("sessionStorage" in window) ? function(key){
-      var found = sessionStorage.getItem(key);
+      var k = _.str(prefix, "|", key);
+      var found = sessionStorage.getItem(k);
       if (found) {
         return Promise.resolve(JSON.parse(found));
       } else {
         return _.fmap(f.apply(null, arguments), function(found){
-          sessionStorage.setItem(key, JSON.stringify(found));
+          sessionStorage.setItem(k, JSON.stringify(found));
           return found;
         });
       }
     } : f;
   }
 
-  var gist = sess(function(id){
-    return _.query(gists, {id: id});
+  var gist = sess("gist", function(id){
+    return _.query(_gists, {id: id});
   });
 
-  function gfiles(id){
-    return _.fmap(gist(id), _.get(_, "files"));
-  }
+  var comments = sess("comments", function(id){
+    return _.fmap(_.query(_comments, {id: id}), _.mapa(_.pipe(_.update(_, "created_at", _.date), _.update(_, "updated_at", _.date)), _));
+  });
 
-  function gfile1(id){
-    return _.fmap(gfiles(id), function(files){
-      var key = _.first(_.keys(files));
-      return files[key];
-    }, content);
+  function file(gist){
+    var files = _.get(gist, "files"),
+        key = _.first(_.keys(files));
+    return files[key];
   }
-
-  function gfile2(id, file){
-    return _.fmap(gfiles(id), _.get(_, file), content);
-  }
-
-  var gfile = _.overload(null, gfile1, gfile2);
 
   function randomize(mn, mx) {
     var min = Math.ceil(mn),
@@ -83,26 +80,34 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
     return xs[idx];
   }
 
-  var expands = {
-    "@gist:": gfile
+  function $gist(id){
+    return _.fmap(gist(id), function(gist){
+      return {updated_at: _.date(gist.updated_at), comments: gist.comments, content: content(file(gist))};
+    });
   }
 
+  var expands = {
+    "@gist": $gist
+  }
+
+  var keys = _.keys(expands);
+
   var at2 = _.memoize(function($subject, path){
-    var expansive = _.reFind(/(@(.*):)(.*)/, _);
-    return $.map(_.pipe(_.getIn(_, path), function(text){
-      if (_.isString(text)) {
-        var match = expansive(text),
-            what  = _.nth(match, 1),
-            key   = _.nth(match, 3),
-            find  = _.get(expands, what);
-        if (find) {
-          _.fmap(find(key), function(content){
-            _.swap($subject, _.assocIn(_, path, content));
+    return $.map(_.pipe(_.getIn(_, path), function(obj){
+      if (_.isObject(obj)){
+        var key = _.detect(_.get(obj, _), keys),
+            id  = _.get(obj, key),
+            f   = _.get(expands, key);
+        if (key && !_.contains(obj, "content")) {
+          _.fmap(f(id), function(meta){
+            _.swap($subject, _.updateIn(_, path, _.merge(_, meta)));
           });
           return null;
+        } else {
+          return _.get(obj, "content");
         }
       }
-      return text;
+      return obj;
     }), $subject);
   }, function($subject, path){
     return _.join("|", path);
@@ -122,7 +127,9 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
   var $hash = $.hashchange(window),
       $blog = $.fromPromise(
         _.fmap(
-          gfile("3d3ddbf786b2edd486ace27dcac29365"),
+          gist("3d3ddbf786b2edd486ace27dcac29365"),
+          file,
+          content,
           _.update(_, "posts", _.pipe(
             _.map(_.update(_, "published", _.date), _),
             _.filtera(_.pipe(_.get(_, "published"), _.lte(_, asof)), _),
@@ -192,10 +199,10 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
       dom.attr(bwd, "href", prev);
       dom.attr(fwd, "href", next);
 
-      at($blog, ["posts", idx, "body"], function(){
+      at($blog, ["posts", idx], function(){
         _.just($posts, _.deref, _.get(_, slug), function(post){
           _.doto(dom.sel1("#post"),
-            dom.html(_, post.body),
+            dom.html(_, post.content),
             dom.prepend(_, h1(post.title)));
         });
         window.scrollTo(0,0);
@@ -207,10 +214,9 @@ define('main', ['atomic/core', 'atomic/repos', 'atomic/dom', 'atomic/reactives',
 
   return {
     $blog: $blog,
+    $posts: $posts,
     at: at,
-    gists: gists,
     gist: gist,
-    gfiles: gfiles,
-    gfile: gfile
+    comments: comments
   }
 });
