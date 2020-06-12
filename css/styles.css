@@ -10,12 +10,39 @@ body {
   margin: 0;
   text-align: center;
 }
-h1#sitename {
+a.plain {
+  text-decoration: none !important;
+}
+#sitename {
   text-transform: lowercase;
+}
+#posts {
+  margin: 1em auto;
+  max-width: 40em;
+  font-size: .8em;
+}
+#posts td {
+  vertical-align: top;
+  padding-bottom: 1em;
+}
+#posts td h2 {
+  margin: 0;
+}
+#posts .title {
+  text-align: left;
+  width: 100%;
+}
+#posts .pub {
+  width: 8em;
+  text-align: right;
+  font-size: .9em;
+}
+img.divider {
+  margin: 0 auto 2em;
+  display: block;
 }
 article {
   max-width: 40em;
-  padding: 1em;
   text-align: left;
   margin: 0 auto;
 }
@@ -39,7 +66,7 @@ p {
   font-family: Merriweather;
   background-image: url(/images/paisley.png);
 }
-h1#sitename {
+#sitename {
   font-size: 5em;
   font-family: Kristi, cursive;
   padding: 0;
@@ -67,7 +94,7 @@ blockquote cite {
   margin-top: .5em;
 }
 #whereabouts {
-  padding: 0;
+  padding: 3em 0 0;
   display: inline-block;
 }
 #whereabouts a,
