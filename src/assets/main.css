@@ -8,6 +8,9 @@ body {
   padding: 0;
   margin: 0;
 }
+#sitename {
+  font-family: "Shadows Into Light", sans-serif;
+}
 h1 {
   font-size: 2.25em;
 }
@@ -29,6 +32,7 @@ article header .tags {
   padding: 0;
   position: absolute;
   top: 0;
+  font-style: normal;
   right: 1em;
 }
 article .tags ul {
@@ -42,8 +46,10 @@ article .tags li {
   padding: 0;
   margin: .2em 0;
 }
-#sitename {
-  font-family: "Shadows Into Light", sans-serif;
+article header .tags li {
+  display: block;
+  text-align: right;
+  margin-bottom: .6em;
 }
 nav {
   text-align: center;
@@ -124,7 +130,6 @@ article > ul li:after {
 article ul.tags li:after {
   list-style:  none;
   display: none;
-
 }
 header h1 {
   margin: 1em 0 0 0;
@@ -133,34 +138,35 @@ header h1 {
 section.summary {
   padding: 1em;
   background-color: rgba(255,255,255,.8);
+  border-color: #798581;
   margin: 1em auto .5em;
   max-width: 30em;
   border-left: solid .5em;
-  font-size: .8em;
+  font-size: .85em;
   text-align: left;
 }
 .teaser {
   text-align: center;
-}
-.teaser {
   font-size: 1.5em;
 }
-.byline {
-  font-size: .8em;
+.published {
   text-align: right;
-}
-.date {
   font-size: .8em;
+  padding: .4em;
+}
+.divider {
+  display: block;
+  margin: -2em auto;
 }
 table.index td {
-  vertical-align: top;
+  vertical-align: baseline;
 }
 table.index td.post {
   width: 100%;
   padding-bottom: 1em;
 }
-table.index td.date {
-  min-width: 8em;
+table.index td.published {
+  min-width: 4em;
 }
 table.index td.post p {
   padding: 0;
@@ -234,8 +240,8 @@ article header, pre[class*="language-"] {
 
 pre[class*="language-"] {
   padding: 1em;
-
 }
+
 /* color palette */
 
 *, a {
@@ -257,18 +263,17 @@ a.brand {
 header {
   color: #34282C;
 }
-.meta .summary p {
-  background-color: #b7bcba;
-  border-color: #798581;
-}
 h2 {
   color: white;
 }
-span.date, a.brand {
+span.published, a.brand {
   color: #cc8400;
 }
 h2, article > ul > li:after {
   background-color: #cc8400;
+}
+.index h2 {
+  background-color: rgba(204, 132, 0, .33);
 }
 .tags a {
   background-color: #e4eed3;
@@ -293,4 +298,3 @@ h2, article > ul > li:after {
 #whereabouts a {
   background-color: transparent;
 }
-

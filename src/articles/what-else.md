@@ -2,7 +2,7 @@
 title: What Else Can Be Said?
 slug: what-else
 author: Mario T. Lanza
-date: 2017-10-08
+published: 2017-10-08
 tags: what, me, worry
 summary: You had no idea that this was all a bunch of fluff.
 ---
