@@ -190,6 +190,7 @@ section.summary {
   font-size: .85em;
   text-align: left;
   line-height: 1.4em;
+  border-radius: 6px;
 }
 .teaser {
   text-align: center;
@@ -266,7 +267,6 @@ footer {
   padding: 1em 1em 2em;
 }
 .brand {
-  position: relative;
   text-align: center;
   font-size: 4em;
   margin: .2em auto 0;
