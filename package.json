@@ -5,9 +5,9 @@
   "description": "Does Ideas is the personal blog of Mario T. Lanza.",
   "author": "Mario T. Lanza",
   "dependencies": {
-    "handlebars": "^4.0.5",
+    "handlebars": "^4.7.6",
     "metalsmith": "^2.2.0",
-    "metalsmith-collections": "^0.7.0",
+    "metalsmith-collections": "^0.9.0",
     "metalsmith-date-formatter": "^1.0.2",
     "metalsmith-debug": "^1.1.0",
     "metalsmith-inspect": "0.0.6",
@@ -25,5 +25,8 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node ."
+  },
+  "devDependencies": {
+    "metalsmith-disqus": "^1.2.5"
   }
 }

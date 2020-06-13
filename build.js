@@ -11,7 +11,8 @@ var metalsmith = require('metalsmith'),
     wordcount = require('metalsmith-word-count'),
     tags = require('metalsmith-tags'),
     linkcheck = require('metalsmith-linkcheck'),
-    debug = require('metalsmith-debug');
+    debug = require('metalsmith-debug'),
+    disqus = require('metalsmith-disqus');
 
 Prism.languages.clojure = {
   'comment': /;+[^\r\n]*(\r?\n|$)/g,
@@ -88,6 +89,10 @@ metalsmith(__dirname)
       article: 'partials/article'
     }
 	}))
+  .use(disqus({
+    siteurl: 'doesideas.com',
+    shortname: 'doesideas'
+  }))
 	.use(serve({
 	  port: 8080,
 	  verbose: false

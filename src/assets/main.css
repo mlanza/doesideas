@@ -1,23 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto&family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Shadows+Into+Light&display=swap');
 @import url("/assets/prism.css");
 html, body {
   padding: 0;
   margin: 0;
   outline: 0;
   border: 0;
-  box-sizing: border-box;
 }
-html{
-  font-family: "Barlow Condensed", sans-serif;
+html {
+  font-family: 'Barlow', sans-serif;
   background-image: url(images/planes.jpeg);
   background-attachment: fixed;
 }
 body {
   background-color: rgba(255,255,255,.94);
-  margin: -1em 0;
+  padding: 2em 0;
+}
+h1, h2, .teaser, nav, .tags, td.published {
+  font-family: 'Barlow Condensed', sans-serif;
 }
 #sitename {
   font-family: "Shadows Into Light", sans-serif;
+}
+.summary {
+  font-style: normal;
 }
 h1 {
   font-size: 2.25em;
@@ -29,6 +34,7 @@ ul {
 table.index .tags {
   font-size: .7em;
   opacity: .5;
+  margin-top: .5em;
 }
 table.index tr:hover .tags {
   opacity: 1;
@@ -58,6 +64,9 @@ article header .tags li {
   display: block;
   text-align: right;
   margin-bottom: .6em;
+}
+article p {
+  line-height: 1.4em;
 }
 nav {
   text-align: center;
@@ -104,7 +113,7 @@ article header h1 {
 }
 article,
 ul.recent {
-  min-height: 20em;
+  min-height: calc(100vw - 39.2em);
   margin: 1em auto;
 }
 article > ul {
@@ -145,15 +154,42 @@ header h1 {
   margin: 1em 0 0 0;
   text-align: center;
 }
-section.summary {
+blockquote {
+  font-family: "Shadows Into Light";
+  font-weight: bold;
   padding: 1em;
-  background-color: rgba(255,255,255,.8);
+  font-size: 1.5em;
+  line-height: 1em;
+  margin: 1em 4em 1em 1.25em;
+  border-left: solid 20px;
+  border-color: rgba(215,215,215,.5);
+  border-color: rgba(204, 132, 0, .33);
+}
+blockquote p {
+  line-height: 1.2em;
+  padding: 0;
+  margin: 0;
+}
+blockquote cite {
+  display: block;
+  text-align: right;
+  font-weight: normal;
+  font-size: .6em;
+  color: #cc8400;
+}
+blockquote cite:before {
+  content: "— ";
+}
+section.summary {
+  padding: 1em 1.5em;
+  background-color: rgba(215,215,215,.5);
   border-color: #798581;
   margin: 1em auto .5em;
-  max-width: 30em;
+  max-width: 28em;
   border-left: solid .5em;
   font-size: .85em;
   text-align: left;
+  line-height: 1.4em;
 }
 .teaser {
   text-align: center;
@@ -165,9 +201,33 @@ section.summary {
   font-size: .8em;
   padding: .4em;
 }
+td.published {
+  opacity: .8;
+}
+p.published {
+  color: #cc8400;
+  font-family: "Shadows Into Light";
+}
 .divider {
   display: block;
-  margin: -2em auto;
+  margin: 0 auto;
+}
+#comments {
+  margin: 2em auto;
+  max-width: 45em;
+}
+#comments > h1 {
+  margin: 0;
+}
+#comments > h2 {
+  margin: 0;
+  color: #cc8400;
+  background-color: transparent;
+  font-weight: 400;
+  -font-family: "Shadows Into Light";
+}
+#comments > div {
+  margin: 1.5em;
 }
 table.index td {
   vertical-align: baseline;
@@ -185,6 +245,10 @@ table.index td.post p {
 }
 table.index td.post h2 {
   padding: 3px;
+  font-weight: normal;
+}
+table.index td.post .summary {
+  font-size: .9em;
 }
 h2 {
   padding: .2em .5em .2em .7em;
@@ -193,7 +257,7 @@ h2 {
   display: inline-block;
 }
 table.index h2 {
-  font-size: 1em;
+  font-size: 1.1em;
   padding: 0;
 }
 footer {
@@ -202,13 +266,16 @@ footer {
   padding: 1em 1em 2em;
 }
 .brand {
+  position: relative;
   text-align: center;
   font-size: 4em;
-  margin: .2em 0 0;
+  margin: .2em auto 0;
   line-height: 1em;
   padding: 10px;
   display: block;
   background-color:  transparent;
+  max-width: 6em;
+  word-spacing: -15px;
 }
 article > ul ul {
   list-style: none;
@@ -227,7 +294,7 @@ pre {
   margin: 0;
   max-width: 100%;
   text-align: center;
-  background-color: rgba(255,255,255,.8) !important;
+  background-color: rgba(215,215,215,.5) !important;
 }
 pre code {
   display: inline-block;
@@ -246,7 +313,7 @@ article header, pre[class*="language-"] {
   width: 100vw;
   max-width: 100vw;
   margin-left: calc(-50vw + 50%);
-  padding: 1em 0;
+  padding: 1em 0 !important;
 }
 
 pre[class*="language-"] {
@@ -290,7 +357,7 @@ h2, article > ul > li:after {
   background-color: #e4eed3;
 }
 #whereabouts {
-  padding: 3em 0 0;
+  padding: 3em 0;
   display: inline-block;
 }
 #whereabouts a,

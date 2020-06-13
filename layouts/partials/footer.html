@@ -4,6 +4,13 @@
   {{#if previous}}&laquo; <a href="/{{previous.path}}">{{previous.title}}</a>{{/if}}
   {{#if next}}<a href="/{{next.path}}">{{next.title}}</a> &raquo; {{/if}}
 </nav>
+{{#if comments }}
+<section id='comments'>
+<h1>Feedback</h1>
+{{#if prompt}}<h2>{{ prompt }}</h2>{{/if}}
+<div class='post-comments' id="disqus_thread"></div>
+</section>
+{{/if}}
 <ul id="whereabouts">
   <li>
     <a href="https://stackoverflow.com/users/25358" title="Stackoverflow" >
