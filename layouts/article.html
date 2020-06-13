@@ -3,7 +3,6 @@
 <header>
   <h1>{{ title }}</h1>
   {{#if teaser}}<div class="teaser">{{ teaser }}</div>{{/if}}
-  {{#if date}}<div class="byline">{{#if author}}by {{ author }}, {{/if}}{{ date }}</div>{{/if}}
 {{#if tags}}
 <ul class="tags">
 {{#each tags}}
@@ -12,14 +11,13 @@
 </ul>
 {{/if}}
 {{#if summary}}
-<ul class="meta">
-  <li class="summary">
-    <p>{{{ summary }}}</p>
-  </li>
-  <li class="wordcount">&mdash; {{{ wordCount }}} words &mdash;</li>
-</ul>
+<section class="summary">
+  {{{ summary }}}
+</section>
 {{/if}}
 </header>
 {{{ contents }}}
+{{#if date}}<p class="byline">{{ date }}</p>{{/if}}
 </article>
+
 {{> footer }}

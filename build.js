@@ -22,7 +22,12 @@ metalsmith(__dirname)
   })
   .source('./src')
   .destination('./public')
-	.use(dateFormatter())
+	.use(dateFormatter({
+    dates: [{
+      key: 'date',
+      format: 'YYYY-MM-DD'
+    }]
+}))
   .use(tags({
     handle: 'tags',
     path: 'tagged/:tag.html',

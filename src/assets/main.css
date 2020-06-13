@@ -1,18 +1,35 @@
-@import url("//fonts.googleapis.com/css?family=Slabo+27px|PT+Sans+Narrow|Merriweather|Inconsolata");
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto&family=Shadows+Into+Light&display=swap');
 @import url("/assets/prism.css");
+html{
+  background-image: url(images/paisley.png);
+}
 body {
-  font-family: "Slabo 27px";
+  font-family: "Barlow Condensed", sans-serif;
   padding: 0;
   margin: 0;
 }
 h1 {
   font-size: 2.25em;
 }
+ul {
+  padding: 0;
+  margin: 0;
+}
+table.index .tags {
+  font-size: .7em;
+  opacity: .5;
+}
+table.index tr:hover .tags {
+  opacity: 1;
+}
 article header .tags {
   text-align: center;
   margin: 1em auto;
   max-width: 30em;
   padding: 0;
+  position: absolute;
+  top: 0;
+  right: 1em;
 }
 article .tags ul {
   list-style: none;
@@ -25,9 +42,12 @@ article .tags li {
   padding: 0;
   margin: .2em 0;
 }
+#sitename {
+  font-family: "Shadows Into Light", sans-serif;
+}
 nav {
-  font-family: "Slabo 27px";
   text-align: center;
+  font-size: 1.25em;
 }
 nav ul {
   list-style: none;
@@ -41,18 +61,15 @@ nav li {
 nav a, .tags a {
   padding: .2em;
   margin: .2em;
-  font-style: normal;
-  font-family: "Slabo 27px";
 }
 .meta {
   font-style: normal;
 }
 article {
-  margin: 1em auto 5em;
+  margin: 0 auto 5em;
   font-size: 1.75em;
   max-width: 32em;
   padding: 0;
-  position: relative;
 }
 article > * {
   max-width: 32em;
@@ -63,7 +80,6 @@ article > * {
 }
 article header {
   font-style: italic;
-  position: relative;
   margin: 1em 0;
 }
 a.permalink {
@@ -92,6 +108,7 @@ article > ul li p {
 }
 a.brand {
   text-decoration: none;
+  text-transform: lowercase;
   color: inherit;
 }
 article > ul li:after {
@@ -113,37 +130,16 @@ header h1 {
   margin: 1em 0 0 0;
   text-align: center;
 }
-header,
-.title {
-  font-family: Merriweather, Georgia;
-}
-.meta {
-  font-family: "PT Sans Narrow";
-  list-style: none;
-  display: block;
-  max-width: 35em;
-  padding: 0;
-  margin: 0 auto;
-}
-.meta li {
-  padding: 0;
-  margin: 0 auto .5em;
-  width: auto;
-  text-align: center;
-}
-.meta li.wordcount {
-  text-align: center;
-  font-size: .8em;
-}
-.meta li.summary p {
+section.summary {
   padding: 1em;
-  margin: .25em;
+  background-color: rgba(255,255,255,.8);
+  margin: 1em auto .5em;
+  max-width: 30em;
   border-left: solid .5em;
   font-size: .8em;
   text-align: left;
 }
-.teaser,
-.byline {
+.teaser {
   text-align: center;
 }
 .teaser {
@@ -151,17 +147,37 @@ header,
 }
 .byline {
   font-size: .8em;
-  margin: 1em;
+  text-align: right;
 }
 .date {
   font-size: .8em;
 }
+table.index td {
+  vertical-align: top;
+}
+table.index td.post {
+  width: 100%;
+  padding-bottom: 1em;
+}
+table.index td.date {
+  min-width: 8em;
+}
+table.index td.post p {
+  padding: 0;
+  margin: 0;
+}
+table.index td.post h2 {
+  padding: 3px;
+}
 h2 {
-  font-family: "PT Sans Narrow";
-  padding: .2em .5em .2em 1em;
+  padding: .2em .5em .2em .7em;
   margin: 0;
   font-size: 1.5em;
   display: inline-block;
+}
+table.index h2 {
+  font-size: 1em;
+  padding: 0;
 }
 footer {
   text-align: center;
@@ -169,15 +185,11 @@ footer {
   padding: 1em 1em 2em;
 }
 .brand {
-  background-image: url("/assets/images/bulb.svg");
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 3.25em;
   text-align: center;
-  font-size: 2.5em;
-  margin: 0;
-  padding: 0;
-  padding-top: 3em;
+  font-size: 4em;
+  margin: .2em 0 0;
+  line-height: 1em;
+  padding: 10px;
   display: block;
   background-color:  transparent;
 }
@@ -198,6 +210,7 @@ pre {
   margin: 0;
   max-width: 100%;
   text-align: center;
+  background-color: rgba(255,255,255,.8) !important;
 }
 pre code {
   display: inline-block;
@@ -260,3 +273,24 @@ h2, article > ul > li:after {
 .tags a {
   background-color: #e4eed3;
 }
+#whereabouts {
+  padding: 3em 0 0;
+  display: inline-block;
+}
+#whereabouts a,
+#whereabouts img {
+  width: 5em;
+  height: 5em;
+  margin: 0 .25em;
+  float: left;
+}
+#whereabouts li {
+  padding: none;
+  margin: none;
+  list-style: none;
+  float: left;
+}
+#whereabouts a {
+  background-color: transparent;
+}
+

@@ -3,14 +3,23 @@
 <header>
 <h1>Articles</h1>
 </header>
-<ul class="index">
+<table class="index">
+<tbody>
 {{#each articles }}
-<li>
-  <span class="title"><a href="../{{ path }}">{{ title }}</a></span>, <span class="date">{{ date }}</span>
-  <p class="summary">{{ summary }}</p>
-  <ul class="tags">{{#each tags}}<li><a href="/tagged/{{name}}">{{name}}</a></li>{{/each}}</ul>
-</li>
+<tr>
+  <td class="date">{{ date }}</td>
+  <td class='post'>
+    <h2 class="title"><a href="../{{ path }}">{{ title }}</a></h2>
+    <p class="summary">{{ summary }}</p>
+    <ul class="tags">
+      {{#each tags}}
+      <li><a href="/tagged/{{name}}">{{name}}</a></li>
+      {{/each}}
+    </ul>
+  </td>
+</tr>
 {{/each}}
-</ul>
+</tbody>
+</table>
 </article>
 {{> footer }}
