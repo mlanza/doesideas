@@ -1,12 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Roboto&family=Shadows+Into+Light&display=swap');
 @import url("/assets/prism.css");
-html{
-  background-image: url(images/paisley.png);
-}
-body {
-  font-family: "Barlow Condensed", sans-serif;
+html, body {
   padding: 0;
   margin: 0;
+  outline: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+html{
+  font-family: "Barlow Condensed", sans-serif;
+  background-image: url(images/planes.jpeg);
+  background-attachment: fixed;
+}
+body {
+  background-color: rgba(255,255,255,.94);
+  margin: -1em 0;
 }
 #sitename {
   font-family: "Shadows Into Light", sans-serif;
@@ -116,6 +124,8 @@ a.brand {
   text-decoration: none;
   text-transform: lowercase;
   color: inherit;
+  vertical-align: baseline;
+  line-height: 1.1em;
 }
 article > ul li:after {
   content: '';
@@ -188,7 +198,7 @@ table.index h2 {
 }
 footer {
   text-align: center;
-  margin: 1em 0;
+  margin: 1em 0 -1em;
   padding: 1em 1em 2em;
 }
 .brand {
