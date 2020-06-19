@@ -8,7 +8,6 @@ html, body {
 }
 body {
   font-family: 'Barlow', sans-serif;
-  background-attachment: fixed;
   background-image: url(images/planes.png);
   background-color: rgba(255,255,255,.94);
   padding: 2em 0;
@@ -103,6 +102,7 @@ a.permalink {
 }
 article header h1 {
   margin-top: 0;
+  line-height: 1em;
 }
 article,
 ul.recent {
@@ -316,6 +316,26 @@ pre[class*="language-"] {
 }
 h1 {
   font-size: 2.5em;
+}
+.footnotes {
+  font-size: .7em;
+  color:dimgray;
+}
+.footnotes a {
+  background-color: transparent;
+}
+sup a {
+  font-size: .8em;
+  background-color: transparent;
+  color: #cc8400;
+}
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}
+sub {
+  top: 0.4em;
 }
 
 /* color palette */
