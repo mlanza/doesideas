@@ -1,0 +1,25 @@
+body {
+  background-image: url("../images/connected.jpg");
+}
+ul {
+  width: 40em;
+  list-style: none;
+  display: block;
+  margin: 2em auto;
+  text-align: center;
+}
+ul li img {
+  transition: all .5s ease;
+  opacity: .4;
+}
+ul li {
+  display: inline-block;
+  padding: .5em;
+}
+ul li img {
+  height: 5em;
+  width: 5em;
+}
+ul li img:hover {
+  opacity: 1;
+}
